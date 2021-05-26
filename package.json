@@ -1,0 +1,51 @@
+{
+  "name": "react-lineage-dag",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "unpkg": "dist/index.unpkg.js",
+  "jsnext:main": "dist/index.es.js",
+  "scripts": {
+    "start": "cd example && npm run dev",
+    "build": "rollup -c ./rollup.config.js",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "butterfly-dag": "^3.1.8",
+    "butterfly-react": "^0.0.23-beta",
+    "classnames": "^2.2.6",
+    "prop-types": "^15.7.2",
+    "react": "^16.0.0 || ^17.0.1",
+    "react-dom": "^16.0.0 || ^17.0.1",
+    "lodash": "*",
+    "antd": "^4.12.3",
+    "@ant-design/icons": "^4.5.0"
+  },
+  "devDependencies": {
+    "@ant-design/icons": "^4.5.0",
+    "@babel/core": "^7.13.8",
+    "@babel/plugin-proposal-class-properties": "^7.12.1",
+    "@babel/preset-env": "^7.12.11",
+    "@babel/preset-react": "^7.12.10",
+    "@rollup/plugin-babel": "^5.2.3",
+    "@rollup/plugin-commonjs": "^17.1.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^11.1.0",
+    "antd": "^4.12.3",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.18.0",
+    "eslint-config-aliyun": "^2.0.3",
+    "eslint-plugin-react": "^7.22.0",
+    "less": "^4.1.0",
+    "postcss": "^8.2.4",
+    "rollup": "^2.38.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-postcss": "^4.0.0"
+  },
+  "dependencies": {
+    "butterfly-dag": "^3.1.8",
+    "butterfly-react": "^0.0.23-beta",
+    "classnames": "^2.2.6",
+    "lodash": "*"
+  }
+}
