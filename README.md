@@ -13,7 +13,7 @@
 ## 使用
 
 ```shell
-$ npm install lineage-dag # or (yarn add lineage-dag)
+$ npm install react-lineage-dag # or (yarn add lineage-dag)
 ```
 
 ```jsx
