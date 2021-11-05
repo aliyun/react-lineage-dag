@@ -82,7 +82,7 @@ const data = {
 
 const App = () => {
   return (
-    <LineageTable {...data} />
+    <LineageTable {...data} onEachFrame={() => { }}/>
   )
 }
 ```
