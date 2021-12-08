@@ -17,7 +17,7 @@ $ npm install react-lineage-dag # or (yarn add react-lineage-dag)
 ```
 
 ```jsx
-import {LineageTable} from 'lineage-dag';
+import {LineageTable} from 'react-lineage-dag';
 
 const data = {
   tables: [
