@@ -1,0 +1,70 @@
+.butterfly-lineage-dag {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  min-height: 200px;
+  min-width: 200px;
+  .table-node {
+    position: absolute;
+    border: 1px solid #595959;
+    border-radius: 5px;
+    .title-con {
+      position: relative;
+      min-width: 150px;
+      .operator {
+        position: absolute;
+        min-width: 50px;
+        height: 100%;
+        top: 0;
+        right: 10px;
+        .operator-item {
+          display: inline-block;
+          height: 100%;
+          line-height: 34px;
+        }
+      }
+      .point {
+        position: absolute;
+        top: 14px;
+        width: 0;
+        height: 0;
+        &.left-point {
+          left: 2px;
+        }
+        &.right-point {
+          right: 2px;
+        }
+      }
+    }
+    .field {
+      position: relative;
+      padding: 0 10px;
+      .point {
+        position: absolute;
+        top: 10px;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #999;
+        &.left-point {
+          left: 2px;
+        }
+        &.right-point {
+          right: 2px;
+        }
+      }
+    }
+  }
+  .title {
+    padding-left: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .filed-title{
+    .filed-title-item{
+      display: inline-block;
+      text-align: center;
+    }
+  }
+}
