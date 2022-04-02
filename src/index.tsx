@@ -16,6 +16,7 @@ interface ComProps {
   config?: any,
   emptyContent?: string | JSX.Element,
   emptyWidth?: number | string,
+  centerId?: string,
   onChange(data: any): void,
   onLoaded(canvas: any): void,
   onEachFrame(canvas: any): void,
@@ -135,8 +136,19 @@ export default class LineageDag extends React.Component<ComProps, any> {
 
     let diffInfo = diffPropsData(result, this.canvasData);
     
+    let isNeedRelayout = false;
+    console.log(diffInfo);
     if (diffInfo.rmEdges.length > 0) {
       this.canvas.removeEdges(diffInfo.rmEdges.map(edge => edge.id));
+      isNeedRelayout = true;
+    }
+
+    if (diffInfo.rmNodes.length > 0) {
+      this.canvas.removeNodes(diffInfo.rmNodes.map((item) => item.id));
+    }
+
+    if (diffInfo.addNodes.length > 0) {
+      this.canvas.addNodes(diffInfo.addNodes);
     }
 
     if (diffInfo.collapseNodes) {
@@ -144,19 +156,20 @@ export default class LineageDag extends React.Component<ComProps, any> {
         let node = this.canvas.getNode(item.id);
         node.collapse(item.isCollapse);
       });
+      isNeedRelayout = true;
     }
 
     if (diffInfo.addEdges.length > 0) {
       this.canvas.addEdges(diffInfo.addEdges);
+      isNeedRelayout = true;
     }
 
-    if (diffInfo.collapseNodes) {
-      let collapseNode = diffInfo.collapseNodes[0];
-      let node = this.canvas.getNode(collapseNode.id);
+    if (isNeedRelayout) {
       this.canvas.relayout({
-        centerNodeId: node.id
-      });
+        centerNodeId: newProps.centerId
+      })
     }
+    
 
     this.canvasData = result;
 

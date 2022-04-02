@@ -94,6 +94,7 @@ export let diffPropsData = (newData, oldData) => {
 
   const isCollapseNodesChange = (a, b) => a.id === b.id && a.isCollapse === b.isCollapse;
   let collapseNodes = _.differenceWith(newData.nodes, oldData.nodes, isCollapseNodesChange);
+  collapseNodes = _.differenceWith(collapseNodes, addNodes, isSameNode);
 
   return {
     addNodes,
