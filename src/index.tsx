@@ -101,22 +101,22 @@ export default class LineageDag extends React.Component<ComProps, any> {
     };
 
     // 写一个通用的relayout方法
-    if (_.get(this.props, 'config.autoLayout.enable', true)) {
-      canvasObj['layout'] = {
-        type: 'dagreLayout',
-        options: {
-          rankdir: _.get(this.props, 'config.autoLayout.direction', 'left-right') === 'top-bottom' ? 'TB' : 'LR',
-          nodesep: 40,
-          ranksep: 40
-        }
-      };
-    }
+    // if (_.get(this.props, 'config.autoLayout.enable', true)) {
+    //   canvasObj['layout'] = {
+    //     type: 'dagreLayout',
+    //     options: {
+    //       rankdir: _.get(this.props, 'config.autoLayout.direction', 'left-right') === 'top-bottom' ? 'TB' : 'LR',
+    //       nodesep: 40,
+    //       ranksep: 40
+    //     }
+    //   };
+    // }
 
     this.canvas = new LineageCanvas(canvasObj);
 
     setTimeout(() => {
       this.canvas.draw(result, () => {
-        // console.log('draw')
+        this.canvas.relayout();
       });
     }, _.get(this.props, 'config.delayDraw', 0));
 
@@ -139,11 +139,24 @@ export default class LineageDag extends React.Component<ComProps, any> {
       this.canvas.removeEdges(diffInfo.rmEdges.map(edge => edge.id));
     }
 
+    if (diffInfo.collapseNodes) {
+      diffInfo.collapseNodes.forEach((item) => {
+        let node = this.canvas.getNode(item.id);
+        node.collapse(item.isCollapse);
+      });
+    }
+
     if (diffInfo.addEdges.length > 0) {
       this.canvas.addEdges(diffInfo.addEdges);
     }
 
-    
+    if (diffInfo.collapseNodes) {
+      let collapseNode = diffInfo.collapseNodes[0];
+      let node = this.canvas.getNode(collapseNode.id);
+      this.canvas.relayout({
+        centerNodeId: node.id
+      });
+    }
 
     this.canvasData = result;
 

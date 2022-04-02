@@ -21,7 +21,7 @@ export let mockData = {
     {
       id: '2',
       name: 'table-2',
-      isCollapse: true,
+      // isCollapse: true,
       fields: [
         {
           name: 'id',
@@ -30,6 +30,30 @@ export let mockData = {
         {
           name: 'age',
           title: 'age'
+        },
+        {
+          name: 'id2',
+          title: 'id2',
+        },
+        {
+          name: 'age2',
+          title: 'age2'
+        },
+        {
+          name: 'id3',
+          title: 'id3',
+        },
+        {
+          name: 'age3',
+          title: 'age3'
+        },
+        {
+          name: 'id4',
+          title: 'id4',
+        },
+        {
+          name: 'age4',
+          title: 'age4'
         }
       ]
     },

@@ -19,7 +19,10 @@ export default class TableNode extends Node {
   }
   mounted() {
     // 生成field的endpoint
-    this._createNodeEndpoint();
+    this._createNodeEndpoint(true);
+
+    this.width = this.options.width = $(this.dom).width();
+    this.height = this.options.height = $(this.dom).height();
   }
   draw(obj) {
     let _dom = obj.dom;
@@ -42,6 +45,28 @@ export default class TableNode extends Node {
     this._createTableName(node); // 表名
     this._createFields(node); // 字段
     return node[0];
+  }
+  collapse(state) {
+    if (state !== this.options.isCollapse) {
+      this.options.isCollapse = state;
+      if (!state) {
+        this._createFields();
+        this._createNodeEndpoint();
+      } else {
+        let rmPointIds = this.endpoints.filter((item) => {
+          return !item.options._isNodeSelf;
+        }).map((item) => {
+          return item.id;
+        });
+        rmPointIds.forEach((item) => {
+          this.removeEndpoint(item);
+        });
+        $(this.dom).find('.field').remove();
+        this.fieldsList = [];
+      }
+      this.width = this.options.width = $(this.dom).width();
+      this.height = this.options.height = $(this.dom).height();
+    }
   }
   _createTableName(container = $(this.dom)) {
     let title = _.get(this, 'options.name');
@@ -102,6 +127,11 @@ export default class TableNode extends Node {
     let result = [];
 
     if (fields && fields.length) {
+
+      if (isCollapse) {
+        return;
+      }
+      
       fields.forEach((_field, index) => {
         let fieldDom = $('<div class="field"></div>');
         fieldDom.css({
@@ -129,9 +159,7 @@ export default class TableNode extends Node {
         let rightPoint = $('<div class="point right-point"></div>');
         fieldDom.append(leftPoint).append(rightPoint);
 
-        if (!isCollapse) {
-          container.append(fieldDom);
-        }
+        container.append(fieldDom);
 
         result.push({
           id: _field[_primaryKey],
@@ -152,17 +180,20 @@ export default class TableNode extends Node {
 
     return result;
   }
-  _createNodeEndpoint() {
+  _createNodeEndpoint(isInit) {
     // 给节点add endpoint
-    this.titlesList.forEach((item) => {
-      this.addEndpoint({
-        id: item.id,
-        orientation: item.type === 'target' ? [-1,0] : [1,0],
-        dom: item.dom,
-        originId: this.id,
-        type: item.type
+    if (isInit) {
+      this.titlesList.forEach((item) => {
+        this.addEndpoint({
+          id: item.id,
+          orientation: item.type === 'target' ? [-1,0] : [1,0],
+          dom: item.dom,
+          originId: this.id,
+          type: item.type,
+          _isNodeSelf: true // 标准是节点上的锚点，不是列上的锚点
+        });
       });
-    });
+    }
     // 给字段add endpoint
     this.fieldsList.forEach((item) => {
       this.addEndpoint({
@@ -179,6 +210,12 @@ export default class TableNode extends Node {
         originId: this.id,
         type: 'source'
       });
+      if (this.options.isCollapse) {
+        $(item.dom).css({
+          'visibility': 'visible',
+          'display': 'none'
+        });
+      }
     });
   }
 }
