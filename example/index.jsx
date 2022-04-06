@@ -3,7 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter as Router} from 'react-router-dom';
-import {Layout} from 'antd';
+import {Layout, Tooltip} from 'antd';
 import * as _ from 'lodash';
 import LineageDag from '../src/index.tsx';
 import {mockData} from './mock_data/data';
@@ -11,7 +11,7 @@ import {mockData} from './mock_data/data';
 import 'antd/dist/antd.css';
 import './index.less';
 
-import { BorderOuterOutlined, DownSquareOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import { BorderOuterOutlined, DownSquareOutlined, CloseCircleOutlined, StarOutlined } from '@ant-design/icons';
 
 const {Header} = Layout;
 
@@ -31,7 +31,8 @@ class Com extends React.Component {
     }];
     this.operator = [{
       id: 'isExpand',
-      icon: <BorderOuterOutlined />,
+      name: '展开/收缩血缘',
+      icon: <Tooltip title='展开/收缩血缘'><BorderOuterOutlined /></Tooltip>,
       onClick: (nodeData) => {
         // 展开血缘
         let tables = _.cloneDeep(this.state.tables);
@@ -44,7 +45,8 @@ class Com extends React.Component {
       }
     }, {
       id: 'explore',
-      icon: <DownSquareOutlined />,
+      name: '探索血缘',
+      icon: <Tooltip title='探索血缘'><DownSquareOutlined /></Tooltip>,
       onClick: (nodeData) => {
         // 添加血缘
         let node1 = {
@@ -101,7 +103,8 @@ class Com extends React.Component {
       }
     }, {
       id: 'remove',
-      icon: <QuestionCircleOutlined />,
+      name: '删除节点',
+      icon: <Tooltip title='删除节点'><CloseCircleOutlined /></Tooltip>,
       onClick: (nodeData) => {
         // 删除血缘
         let _tables = _.cloneDeep(this.state.tables);
@@ -112,25 +115,6 @@ class Com extends React.Component {
         });
       }
     }];
-  }
-  componentDidMount() {
-    // this.setState({
-    //   sourceData1: _.cloneDeep(sourceData1),
-    //   targetData1: _.cloneDeep(targetData1),
-    //   mappingData1: _.cloneDeep(mappingData1),
-    // });
-    // setTimeout(() => {
-    //   let _sourceData1 = _.cloneDeep(this.state.sourceData1);
-    //   _sourceData1.fields[4].disable = true;
-    //   let _targetData1 = _.cloneDeep(this.state.targetData1);
-    //   _targetData1.fields[5].disable = true;
-    //   _targetData1.fields[6].disable = true;
-    //   _targetData1.fields[7].disable = true;
-    //   this.setState({
-    //     sourceData1: _sourceData1,
-    //     targetData1: _targetData1
-    //   });
-    // }, 5000);
   }
   render() {
     return (
@@ -145,6 +129,14 @@ class Com extends React.Component {
             enable: true
           }
         }}
+
+        actionMenu={[{
+          icon: <StarOutlined />,
+          key: 'star',
+          onClick: () => {
+            alert('点击收藏！')
+          }
+        }]}
       />
     );
   }

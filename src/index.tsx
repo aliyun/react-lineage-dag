@@ -6,6 +6,7 @@ import 'butterfly-dag/dist/index.css';
 import * as _ from 'lodash';
 import LineageCanvas from './canvas/canvas';
 import {transformInitData, transformEdges, diffPropsData} from './adaptor';
+import ActionMenu, {action} from './component/action-menu';
 
 interface ComProps {
   width?: number | string,
@@ -13,6 +14,7 @@ interface ComProps {
   tables: Array<ITable>,
   relations: Array<IRelation>,
   className?: string,
+  actionMenu: action[],                              // action菜单
   config?: {
     showActionIcon?: boolean,                        // 是否展示操作icon：放大，缩小，聚焦
     enableHoverChain: boolean,
@@ -149,6 +151,7 @@ export default class LineageDag extends React.Component<ComProps, any> {
         }
 
         this.canvas.focusCenterWithAnimate();
+        this.forceUpdate();
       });
       this.canvas.on('system.node.click', (data) => {
         let node = data.node;
@@ -223,10 +226,18 @@ export default class LineageDag extends React.Component<ComProps, any> {
     return false;
   }
   render() {
+    const {canvas} = this;
+    const {actionMenu = []} = this.props;
+    const actionMenuVisible = _.get(this, 'props.config.showActionIcon', true);
     return (
       <div
         className={this._genClassName()}
       >
+        <ActionMenu 
+          canvas={canvas}
+          actionMenu={actionMenu}
+          visible={actionMenuVisible}
+        />
       </div>
     )
   }

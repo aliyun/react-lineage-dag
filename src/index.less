@@ -1,3 +1,5 @@
+@import './static/iconfont.css';
+
 .butterfly-lineage-dag {
   position: relative;
   height: 100%;
@@ -24,6 +26,7 @@
           display: inline-block;
           height: 100%;
           line-height: 34px;
+          cursor: pointer;
         }
       }
       .point {
@@ -93,6 +96,34 @@
     &.hover-chain {
       stroke: #F66902;
       fill: #F66902;
+    }
+  }
+  .lineage-dag-canvas-action {
+    // background: #333;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, .1);
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 999;
+    div {
+      height: 24px;
+      width: 24px;
+      text-align: center;
+      line-height: 24px;
+      cursor: pointer;
+      color: #000;
+      opacity: .7;
+      border-bottom: 1px solid rgba(0, 0, 0, .1);
+      i {
+        -webkit-text-stroke-width: 0;
+        font-size: 14px;
+      }
+    }
+    div:hover{
+      background: #eee;
+    }
+    div:last-child {
+      border-bottom: none;
     }
   }
 }
