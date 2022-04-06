@@ -53,6 +53,9 @@ export default class TableNode extends Node {
         this._createFields();
         this._createNodeEndpoint();
       } else {
+        this.fieldsList.forEach((item) => {
+          $(item.dom).off();
+        });
         let rmPointIds = this.endpoints.filter((item) => {
           return !item.options._isNodeSelf;
         }).map((item) => {
@@ -67,6 +70,15 @@ export default class TableNode extends Node {
       this.width = this.options.width = $(this.dom).width();
       this.height = this.options.height = $(this.dom).height();
     }
+  }
+  focus() {
+    $(this.dom).addClass('focus');
+    this.options.minimapActive = true;
+  }
+
+  unfocus() {
+    $(this.dom).removeClass('focus');
+    this.options.minimapActive = false;
   }
   _createTableName(container = $(this.dom)) {
     let title = _.get(this, 'options.name');
@@ -155,9 +167,25 @@ export default class TableNode extends Node {
           }
         });
 
-        let leftPoint = $('<div class="point left-point"></div>');
-        let rightPoint = $('<div class="point right-point"></div>');
+        let leftPoint = $('<div class="point left-point hidden"></div>');
+        let rightPoint = $('<div class="point right-point hidden"></div>');
         fieldDom.append(leftPoint).append(rightPoint);
+
+        if (this.options._enableHoverChain) {
+          $(fieldDom).on('mouseover', (e) => {
+            this.emit('custom.field.hover', {
+              node: this,
+              fieldId: _field[_primaryKey]
+            });
+          });
+      
+          $(fieldDom).on('mouseout', (e) => {
+            this.emit('custom.field.unHover', {
+              node: this,
+              fieldId: _field[_primaryKey]
+            });
+          });
+        }
 
         container.append(fieldDom);
 

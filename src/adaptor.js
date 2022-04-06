@@ -1,11 +1,13 @@
 'use strict';
 import TableNode from './canvas/node';
+import Edge from './canvas/edge';
 import * as _ from 'lodash';
 
 // 初始化数据转换
 export let transformInitData = (data) => {
   let {
-    tables, relations, columns, emptyContent, operator
+    tables, relations, columns, emptyContent, operator,
+    _enableHoverChain
   } = data;
 
   let result = {
@@ -14,7 +16,8 @@ export let transformInitData = (data) => {
         Class: TableNode,
         _columns: columns,
         _emptyContent: emptyContent,
-        _operator: operator
+        _operator: operator,
+        _enableHoverChain
       }, item);
     }),
     edges: relations.map((item) => {
@@ -24,7 +27,8 @@ export let transformInitData = (data) => {
         sourceNode: item.srcTableId,
         targetNode: item.tgtTableId,
         source: item.srcTableColName,
-        target: item.tgtTableColName
+        target: item.tgtTableColName,
+        Class: Edge
       }
     })
   };

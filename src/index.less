@@ -6,8 +6,11 @@
   min-width: 200px;
   .table-node {
     position: absolute;
-    border: 1px solid #595959;
+    box-shadow: 0 2px 10px 0 rgba(0,0,0,0.15);
     border-radius: 5px;
+    &.focus {
+      box-shadow: 0px 0px 5px #f66902;
+    }
     .title-con {
       position: relative;
       min-width: 150px;
@@ -25,32 +28,45 @@
       }
       .point {
         position: absolute;
-        top: 14px;
+        top: 16px;
         width: 0;
         height: 0;
         &.left-point {
-          left: 2px;
+          left: 6px;
         }
         &.right-point {
-          right: 2px;
+          right: 6px;
         }
       }
     }
     .field {
       position: relative;
-      padding: 0 10px;
+      margin: 0 16px;
+      &.hover-chain {
+        background: #fef0e5;
+        .point {
+          background: #ff6a00;
+        }
+      }
+      .field-item {
+        display: inline-block;
+        min-width: 50px;
+      }
       .point {
         position: absolute;
         top: 10px;
-        width: 6px;
-        height: 6px;
+        width: 10px;
+        height: 10px;
         border-radius: 50%;
-        background: #999;
+        background: #D9D9D9;
         &.left-point {
-          left: 2px;
+          left: -14px;
         }
         &.right-point {
-          right: 2px;
+          right: -14px;
+        }
+        &.hidden {
+          visibility: hidden;
         }
       }
     }
@@ -60,11 +76,23 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    background: #fff;
   }
   .filed-title{
     .filed-title-item{
       display: inline-block;
       text-align: center;
+    }
+  }
+  .butterflies-link {
+    &.hover-chain {
+      stroke: #F66902;
+    }
+  }
+  .butterflies-arrow {
+    &.hover-chain {
+      stroke: #F66902;
+      fill: #F66902;
     }
   }
 }

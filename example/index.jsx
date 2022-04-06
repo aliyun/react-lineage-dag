@@ -140,6 +140,11 @@ class Com extends React.Component {
         columns={this.columns}
         operator={this.operator}
         centerId={this.state.centerId}
+        config={{
+          minimap: {
+            enable: true
+          }
+        }}
       />
     );
   }
