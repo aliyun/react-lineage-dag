@@ -13,12 +13,12 @@
 ## 使用
 
 ```shell
-$ npm install lineage-dag@2.x
+$ npm install react-lineage-dag@2.x
 ```
 
 
 ```jsx
-import {LineageTable} from 'lineage-dag';
+import {LineageTable} from 'react-lineage-dag';
 
 const data = {
   tables: [
