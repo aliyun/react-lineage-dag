@@ -17,8 +17,7 @@ interface ComProps {
   actionMenu: action[],                              // action菜单
   config?: {
     showActionIcon?: boolean,                        // 是否展示操作icon：放大，缩小，聚焦
-    enableHoverChain: boolean,
-    enableFoucsChain: boolean,
+    enableHoverChain: boolean,                       // 是否开启hover高亮血缘链路
     minimap?: {                                      // 是否开启缩略图
       enable: boolean,
       config: {
@@ -42,8 +41,7 @@ interface ComProps {
   emptyWidth?: number | string,
   centerId?: string,
   onChange(data: any): void,
-  onLoaded(canvas: any): void,
-  onEachFrame(canvas: any): void
+  onLoaded(canvas: any): void
 }
 
 interface ITable {
@@ -152,6 +150,7 @@ export default class LineageDag extends React.Component<ComProps, any> {
 
         this.canvas.focusCenterWithAnimate();
         this.forceUpdate();
+        this.props.onLoaded && this.props.onLoaded();
       });
       this.canvas.on('system.node.click', (data) => {
         let node = data.node;
