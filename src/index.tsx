@@ -148,9 +148,14 @@ export default class LineageDag extends React.Component<ComProps, any> {
           this.canvas.setMinimap(true, minimapCfg);
         }
 
+        if (_.get(this, 'props.config.gridMode')) {
+          this.canvas.setGridMode(true, _.assign({}, _.get(this, 'props.config.gridMode', {})))
+        }
+
         this.canvas.focusCenterWithAnimate();
+
         this.forceUpdate();
-        this.props.onLoaded && this.props.onLoaded();
+        this.props.onLoaded && this.props.onLoaded(this.canvas);
       });
       this.canvas.on('system.node.click', (data) => {
         let node = data.node;

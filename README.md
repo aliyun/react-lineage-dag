@@ -18,7 +18,10 @@ $ npm install react-lineage-dag@2.x
 
 
 ```jsx
+
 import {LineageTable} from 'react-lineage-dag';
+// 需要引入样式
+import 'react-lineage-dag/dist/index.css';
 
 const data = {
   tables: [
