@@ -112,7 +112,6 @@ const App = () => {
     id: string;                 // 表ID
     name: string;               // 表名（显示名）
     isCollapse: boolean;        // 是否折叠所有列
-    titleRender: () => void;    // 自定义title render
     fields: []                  // 列数据
   }
 
@@ -139,6 +138,7 @@ const App = () => {
   }
 
   interface config {
+    titleRender?: () => void;                         // 自定义节点的title render
     showActionIcon?: boolean,                        // 是否展示操作icon：放大，缩小，聚焦
     enableHoverChain: boolean,                       // 是否开启hover高亮链路
     minimap?: {                                      // 是否开启缩略图

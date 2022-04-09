@@ -7,7 +7,7 @@ import * as _ from 'lodash';
 export let transformInitData = (data) => {
   let {
     tables, relations, columns, emptyContent, operator,
-    _enableHoverChain
+    _titleRender, _enableHoverChain
   } = data;
 
   let result = {
@@ -17,6 +17,7 @@ export let transformInitData = (data) => {
         _columns: columns,
         _emptyContent: emptyContent,
         _operator: operator,
+        _titleRender,
         _enableHoverChain
       }, item);
     }),

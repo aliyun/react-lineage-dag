@@ -16,6 +16,7 @@ interface ComProps {
   className?: string,
   actionMenu: action[],                              // action菜单
   config?: {
+    titleRender: (node:ITable) => void;              // 自定义节点的title render
     showActionIcon?: boolean,                        // 是否展示操作icon：放大，缩小，聚焦
     enableHoverChain: boolean,                       // 是否开启hover高亮血缘链路
     minimap?: {                                      // 是否开启缩略图
@@ -45,10 +46,9 @@ interface ComProps {
 }
 
 interface ITable {
-  id: string;                 // 表ID
-  name: string;               // 表名（显示名）
-  isCollapse: boolean;            // 是否折叠所有列
-  titleRender: () => void;        // 自定义title render
+  id: string;                    // 表ID
+  name: string;                  // 表名（显示名）
+  isCollapse: boolean;           // 是否折叠所有列
   fields: Array<columns>         // colums
 }
 
@@ -84,12 +84,14 @@ export default class LineageDag extends React.Component<ComProps, any> {
     let root = ReactDOM.findDOMNode(this) as HTMLElement;
 
     let enableHoverChain = _.get(this.props, 'config.enableHoverChain', true);
+    let titleRender = _.get(this.props, 'config.titleRender');
 
     let result = transformInitData({
       tables: this.props.tables,
       relations: this.props.relations,
       columns: this.props.columns,
       operator: this.props.operator,
+      _titleRender: titleRender,
       _enableHoverChain: enableHoverChain
     });
 
@@ -170,13 +172,15 @@ export default class LineageDag extends React.Component<ComProps, any> {
   shouldComponentUpdate (newProps: ComProps, newState: any) {
 
     let enableHoverChain = _.get(newProps, 'config.enableHoverChain', true);
+    let titleRender = _.get(this.props, 'config.titleRender');
 
     let result = transformInitData({
       tables: newProps.tables,
       relations: newProps.relations,
       columns: this.props.columns,
       operator: this.props.operator,
-      _enableHoverChain: enableHoverChain
+      _titleRender: titleRender
+      _enableHoverChain: enableHoverChain,
     });
 
     this.originEdges = result.edges;
