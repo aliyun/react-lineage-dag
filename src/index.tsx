@@ -16,7 +16,7 @@ interface ComProps {
   className?: string,
   actionMenu: action[],                              // action菜单
   config?: {
-    titleRender: (node:ITable) => void;              // 自定义节点的title render
+    titleRender: (node:ITable) => void,              // 自定义节点的title render
     showActionIcon?: boolean,                        // 是否展示操作icon：放大，缩小，聚焦
     enableHoverChain: boolean,                       // 是否开启hover高亮血缘链路
     minimap?: {                                      // 是否开启缩略图
@@ -179,7 +179,7 @@ export default class LineageDag extends React.Component<ComProps, any> {
       relations: newProps.relations,
       columns: this.props.columns,
       operator: this.props.operator,
-      _titleRender: titleRender
+      _titleRender: titleRender,
       _enableHoverChain: enableHoverChain,
     });
 
