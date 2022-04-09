@@ -82,7 +82,7 @@ export default class TableNode extends Node {
   }
   _createTableName(container = $(this.dom)) {
     let title = _.get(this, 'options.name');
-    let titleRender = _.get(this, 'options.titleRender');
+    let titleRender = _.get(this, 'options._titleRender');
     let operator = _.get(this, 'options._operator');
     let titleCom = $('<div class="title-con"></div>');
     let titleDom = null;
