@@ -174,7 +174,7 @@ export default class LineageCanvas extends Canvas {
       item.top -= gapY;
     })
   }
-  relayout(options) {
+  relayout(options, isInit) {
     let nodes = this.nodes;
     let edges = this.edges;
     let nodesData = nodes.map((item, index) => {
@@ -184,12 +184,17 @@ export default class LineageCanvas extends Canvas {
         order: index,
       } , item.options);
     });
-    let edgesData = edges.map((item) => {
-      return {
-        source: item.sourceNode.id,
-        target: item.targetNode.id
-      }
-    });
+    let edgesData = [];
+    if (isInit) {
+      edgesData = options.edges || [];
+    } else {
+      edgesData = edges.map((item) => {
+        return {
+          source: item.sourceNode.id,
+          target: item.targetNode.id
+        }
+      });
+    }
 
     const NODESTEP = 50;
 
@@ -211,7 +216,7 @@ export default class LineageCanvas extends Canvas {
       this._fixCenterNode(nodesData, options.centerNodeId);
     }
 
-    if (edges.length > 30) {
+    if (!isInit && edges.length > 30) {
       $(this.svg).css('visibility', 'hidden');
     }
 
@@ -226,7 +231,7 @@ export default class LineageCanvas extends Canvas {
     });
 
 
-    if (edges.length > 30) {
+    if (!isInit && edges.length > 30) {
       $(this.svg).css('visibility', 'visible');
     }
   }
