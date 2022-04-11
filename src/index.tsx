@@ -132,10 +132,21 @@ export default class LineageDag extends React.Component<ComProps, any> {
     };
 
     this.canvas = new LineageCanvas(canvasObj);
-
+    
     setTimeout(() => {
+      let tmpEdges = result.edges;
+      result.edges = [];
       this.canvas.draw(result, () => {
-        this.canvas.relayout();
+        this.canvas.relayout({
+          edges: tmpEdges.map((item) => {
+            return {
+              source: item.sourceNode,
+              target: item.targetNode
+            }
+          })
+        }, true);
+
+        this.canvas.addEdges(tmpEdges, true);
 
         let minimap = _.get(this, 'props.config.minimap', {});
 
