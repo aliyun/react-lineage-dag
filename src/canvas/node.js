@@ -90,7 +90,7 @@ export default class TableNode extends Node {
     // 渲染title
     if (titleRender) {
       titleDom = $(`<div class="title"></div>`);
-      ReactDOM.render(titleRender(title), titleDom[0]);
+      ReactDOM.render(titleRender(title, this), titleDom[0]);
     } else if (title) {
       titleDom = $(`<div class="title">${title}</div>`);
       titleDom.css({
