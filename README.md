@@ -4,6 +4,8 @@
 
 ![demo preview](https://img.alicdn.com/imgextra/i4/O1CN01ou8wTq20SQv4AnedD_!!6000000006848-1-tps-1337-761.gif)
 
+[English](./README.en-US.md) | 简体中文
+
 ## ✨ 特性
 
 - 开箱即用的关系图表
