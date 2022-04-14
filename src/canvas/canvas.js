@@ -101,9 +101,10 @@ export default class LineageCanvas extends Canvas {
       fileds: resultFields
     }
   }
-  _precollide = (nodes, nodestep) => {
+  _precollide = (nodes, nodestep, rankstep) => {
     
     const rank = {};
+    let rankKeys = [];
     const after = {};
   
     for (let node of nodes) {
@@ -114,9 +115,11 @@ export default class LineageCanvas extends Canvas {
         rank[node.left].push(node);
       }
     }
+
+    rankKeys = Object.keys(rank).sort((a, b) => parseInt(a) - parseInt(b));
   
     // 保证统一层级上的节点，排序是不变的，利用order进行从大到小排序
-    Object.keys(rank).forEach(level => {
+    rankKeys.forEach(level => {
       let rnodes = rank[level];
       const xys = rnodes.sort((a, b) => a.top - b.top).map(n => [n.left, n.top]);
   
@@ -127,18 +130,27 @@ export default class LineageCanvas extends Canvas {
         node.top = xys[ind][1];
       });
     });
-  
+    
+    let maxRank = {};
     // 同一个x轴上的节点
-    Object.keys(rank).forEach(level => {
+    rankKeys.forEach(level => {
+
       let rnodes = rank[level];
+      maxRank[level] = 0;
+
+      for(let i = 0; i < rnodes.length; i++) {
+        maxRank[level] = Math.max(maxRank[level], rnodes[i].left + rnodes[i].width + rankstep);
+      }
+
       if (rnodes.length === 1) {
         return;
       }
   
-      // 从小到大排序
+      // 从小到大排序，调整上下位置
       rnodes = rnodes.sort((a, b) => a.top - b.top);
   
       for (let i = 0; i < rnodes.length - 1; i++) {
+        
         const current = rnodes[i];
         const next = rnodes[i + 1];
   
@@ -151,8 +163,20 @@ export default class LineageCanvas extends Canvas {
         }
       }
     });
+
+    // 调整左右位置  
+    for(let i = 0; i < rankKeys.length - 1; i++) {
+      let currentKey = rankKeys[i];
+      let nextKey = rankKeys[i + 1];
+      let nextLeft = _.get(rank, [nextKey, 0, 'left'], nextKey);
+      if (maxRank[currentKey] - nextLeft > rankstep) {
+        rank[nextKey].forEach((item) => {
+          item.left = maxRank[currentKey];
+        });
+      }
+    }
   
-    Object.keys(rank).forEach(level => {
+    rankKeys.forEach(level => {
       const ns = rank[level];
       ns.forEach(n => {
         after[n.id] = n;
@@ -197,11 +221,12 @@ export default class LineageCanvas extends Canvas {
     }
 
     const NODESTEP = 50;
+    const RANKSTEP = 70;
 
     Layout.dagreLayout({
       rankdir: 'LR',
       nodesep:  NODESTEP,
-      ranksep:  70,
+      ranksep:  RANKSTEP,
       data: {
         nodes: nodesData,
         edges: edgesData
@@ -209,7 +234,7 @@ export default class LineageCanvas extends Canvas {
     });
 
     // 调整darge后的位置
-    this._precollide(nodesData, NODESTEP);
+    this._precollide(nodesData, NODESTEP, RANKSTEP);
 
     // 调整相对节点的坐标
     if (options && options.centerNodeId) {
