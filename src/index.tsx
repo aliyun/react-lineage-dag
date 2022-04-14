@@ -136,6 +136,7 @@ export default class LineageDag extends React.Component<ComProps, any> {
     setTimeout(() => {
       let tmpEdges = result.edges;
       result.edges = [];
+      // this.canvas.wrapper.style.visibility = 'hidden';
       this.canvas.draw(result, () => {
         this.canvas.relayout({
           edges: tmpEdges.map((item) => {
@@ -145,7 +146,7 @@ export default class LineageDag extends React.Component<ComProps, any> {
             }
           })
         }, true);
-
+        // this.canvas.wrapper.style.visibility = 'visible';
         this.canvas.addEdges(tmpEdges, true);
 
         let minimap = _.get(this, 'props.config.minimap', {});
