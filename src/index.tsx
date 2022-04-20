@@ -98,7 +98,10 @@ export default class LineageDag extends React.Component<ComProps, any> {
     this.originEdges = result.edges;
 
     result = transformEdges(result.nodes, _.cloneDeep(result.edges));
-    this.canvasData = result;
+    this.canvasData = {
+      nodes: result.nodes,
+      edges: result.edges
+    };
 
     let canvasObj = {
       root: root,
@@ -198,7 +201,6 @@ export default class LineageDag extends React.Component<ComProps, any> {
     this.originEdges = result.edges;
 
     result = transformEdges(result.nodes, _.cloneDeep(result.edges));
-
     let diffInfo = diffPropsData(result, this.canvasData);
     
     let isNeedRelayout = false;

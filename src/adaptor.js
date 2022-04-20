@@ -27,8 +27,11 @@ export let transformInitData = (data) => {
         type: 'endpoint',
         sourceNode: item.srcTableId,
         targetNode: item.tgtTableId,
-        source: item.srcTableColName,
-        target: item.tgtTableColName,
+        // source: item.srcTableColName,
+        // target: item.tgtTableColName,
+        source: item.srcTableColName !== undefined ? item.srcTableColName : item.srcTableId + '-right',
+        target: item.tgtTableColName !== undefined ? item.tgtTableColName : item.tgtTableId + '-left',
+        _isNodeEdge: item.srcTableColName === undefined && item.tgtTableColName === undefined,
         Class: Edge
       }
     })
@@ -41,8 +44,10 @@ export let transformInitData = (data) => {
 export let transformEdges = (nodes, edges) => {
 
   edges.forEach((item) => {
-    item.source += '-right';
-    item.target += '-left';
+    if (!item._isNodeEdge) {
+      item.source += '-right';
+      item.target += '-left';
+    }
   })
 
   nodes.forEach((node) => {
@@ -68,7 +73,14 @@ export let transformEdges = (nodes, edges) => {
   let realEdges = [];
 
   edges.forEach((item) => {
-    edgesObj[`${item.sourceNode}-${item.source}-${item.targetNode}-${item.target}`] = item;
+
+    let existObj = edgesObj[`${item.sourceNode}-${item.source}-${item.targetNode}-${item.target}`];
+
+    if (existObj) {
+      _.assign(existObj, item);
+    } else {
+      edgesObj[`${item.sourceNode}-${item.source}-${item.targetNode}-${item.target}`] = item;
+    }
   });
 
   for (let key in edgesObj) {

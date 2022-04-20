@@ -118,6 +118,10 @@ export let mockData = {
       tgtTableId: '4',
       srcTableColName: 'id',
       tgtTableColName: 'id'
+    },
+    {
+      srcTableId: '2',
+      tgtTableId: '4'
     }    
   ]
 }
