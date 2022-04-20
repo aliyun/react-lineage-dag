@@ -125,6 +125,9 @@ class Com extends React.Component {
         operator={this.operator}
         centerId={this.state.centerId}
         config={{
+          titleRender: (title) => {
+            return <div className="title-test" onClick={() => {console.log('click----')}}>{title}</div>
+          },
           minimap: {
             enable: true
           }

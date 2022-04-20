@@ -80,6 +80,45 @@ export default class TableNode extends Node {
     $(this.dom).removeClass('focus');
     this.options.minimapActive = false;
   }
+  _addEventListener() {
+    // todo 做事件代理的形式
+    $(this.dom).on('mousedown', (e) => {
+      const LEFT_KEY = 0;
+      if (e.button !== LEFT_KEY) {
+        return;
+      }
+      if (!['SELECT', 'INPUT', 'RADIO', 'CHECKBOX', 'TEXTAREA'].includes(e.target.nodeName)) {
+        e.preventDefault();
+      }
+      if (this.draggable) {
+        this._isMoving = true;
+        this.emit('InnerEvents', {
+          type: 'node:dragBegin',
+          data: this
+        });
+      } else {
+        // 单纯为了抛错事件给canvas，为了让canvas的dragtype不为空，不会触发canvas:click事件
+        this.emit('InnerEvents', {
+          type: 'node:mouseDown',
+          data: this
+        });
+      }
+    });
+
+    $(this.dom).on('click', (e) => {
+      // e.preventDefault();
+      // e.stopPropagation();
+      this.emit('system.node.click', {
+        node: this
+      });
+      this.emit('events', {
+        type: 'node:click',
+        node: this
+      });
+    });
+
+    this.setDraggable(this.draggable);
+  }
   _createTableName(container = $(this.dom)) {
     let title = _.get(this, 'options.name');
     let titleRender = _.get(this, 'options._titleRender');
