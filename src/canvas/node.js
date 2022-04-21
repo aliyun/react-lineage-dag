@@ -80,6 +80,11 @@ export default class TableNode extends Node {
     $(this.dom).removeClass('focus');
     this.options.minimapActive = false;
   }
+  redrawTitle(type) {
+    $(this.dom).find('title').remove();
+    $(this.dom).find('operator').remove();
+    this._createTableName($(this.dom), true);
+  }
   _addEventListener() {
     // todo 做事件代理的形式
     $(this.dom).on('mousedown', (e) => {
@@ -119,7 +124,7 @@ export default class TableNode extends Node {
 
     this.setDraggable(this.draggable);
   }
-  _createTableName(container = $(this.dom)) {
+  _createTableName(container = $(this.dom), isUpdate) {
     let title = _.get(this, 'options.name');
     let titleRender = _.get(this, 'options._titleRender');
     let operator = _.get(this, 'options._operator');
@@ -154,21 +159,23 @@ export default class TableNode extends Node {
       titleCom.append(operatorDom);
     }
 
-    let leftPoint = $('<div class="point left-point"></div>');
-    let rightPoint = $('<div class="point right-point"></div>');
-    titleCom.append(leftPoint).append(rightPoint);
+    if (!isUpdate) {
+      let leftPoint = $('<div class="point left-point"></div>');
+      let rightPoint = $('<div class="point right-point"></div>');
+      titleCom.append(leftPoint).append(rightPoint);
 
-    this.titlesList = this.titlesList.concat([{
-      id: `${this.id}-left`,
-      dom: leftPoint[0],
-      type: 'target'
-    }, {
-      id: `${this.id}-right`,
-      dom: rightPoint[0],
-      type: 'source'
-    }])
+      this.titlesList = this.titlesList.concat([{
+        id: `${this.id}-left`,
+        dom: leftPoint[0],
+        type: 'target'
+      }, {
+        id: `${this.id}-right`,
+        dom: rightPoint[0],
+        type: 'source'
+      }]);
 
-    $(container).append(titleCom);
+      $(container).append(titleCom);
+    }
   }
   _createFields(container = $(this.dom)) {
     let fields = _.get(this, 'options.fields');
