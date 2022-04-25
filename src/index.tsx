@@ -5,7 +5,7 @@ import './index.less';
 import 'butterfly-dag/dist/index.css';
 import * as _ from 'lodash';
 import LineageCanvas from './canvas/canvas';
-import {transformInitData, transformEdges, diffPropsData} from './adaptor';
+import {transformInitData, transformEdges, diffPropsData, updateCanvasData} from './adaptor';
 import ActionMenu, {action} from './component/action-menu';
 
 interface ComProps {
@@ -244,6 +244,8 @@ export default class LineageDag extends React.Component<ComProps, any> {
     } 
 
     this.canvasData = result;
+
+    updateCanvasData(result.nodes, this.canvas.nodes);
 
     return false;
   }
