@@ -21,7 +21,8 @@ class Com extends React.Component {
     const {tables, relations} = mockData;
     this.state = {
       tables,
-      relations
+      relations,
+      canvas: null
     }
     this.columns = [{
       key: 'name',
@@ -124,9 +125,26 @@ class Com extends React.Component {
         columns={this.columns}
         operator={this.operator}
         centerId={this.state.centerId}
+        onLoaded={(canvas) => {
+          this.setState({
+            canvas
+          });
+        }}
         config={{
           titleRender: (title, node) => {
-            return <div className="title-test" onClick={() => {console.log('click----');}}>{title}</div>
+            return <div className="title-test" onClick={() => {
+              let tables = _.cloneDeep(this.state.tables);
+              tables.forEach((item) => {
+                item.name = 'title change';
+              });
+              this.setState({
+                tables
+              }, () => {
+                this.state.canvas.nodes.forEach((item) => {
+                  item.redrawTitle();
+                });
+              });
+            }}>{title}</div>
           },
           minimap: {
             enable: true
