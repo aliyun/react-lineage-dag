@@ -80,9 +80,9 @@ export default class TableNode extends Node {
     $(this.dom).removeClass('focus');
     this.options.minimapActive = false;
   }
-  redrawTitle(type) {
-    $(this.dom).find('title').remove();
-    $(this.dom).find('operator').remove();
+  redrawTitle() {
+    $(this.dom).find('.title').remove();
+    $(this.dom).find('.operator').remove();
     this._createTableName($(this.dom), true);
   }
   _addEventListener() {
@@ -128,7 +128,7 @@ export default class TableNode extends Node {
     let title = _.get(this, 'options.name');
     let titleRender = _.get(this, 'options._titleRender');
     let operator = _.get(this, 'options._operator');
-    let titleCom = $('<div class="title-con"></div>');
+    let titleCom = isUpdate ? $(this.dom).find('.title-con') : $('<div class="title-con"></div>');
     let titleDom = null;
 
     // 渲染title

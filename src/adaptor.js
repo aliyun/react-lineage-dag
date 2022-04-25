@@ -123,10 +123,9 @@ export let diffPropsData = (newData, oldData) => {
 }
 
 export let updateCanvasData = (newNodes, oldNodes) => {
-  console.log(newNodes);
-  console.log(oldNodes);
   oldNodes.forEach((item) => {
-    _.assign(item.options, newNodes);
+    let newNode = _.find(newNodes, (_item) => _item.id === item.id);
+    _.assign(item.options, newNode);
   });
 }
 
