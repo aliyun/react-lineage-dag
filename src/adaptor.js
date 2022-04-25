@@ -122,6 +122,14 @@ export let diffPropsData = (newData, oldData) => {
   };
 }
 
+export let updateCanvasData = (newNodes, oldNodes) => {
+  console.log(newNodes);
+  console.log(oldNodes);
+  oldNodes.forEach((item) => {
+    _.assign(item.options, newNodes);
+  });
+}
+
 // 'use strict';
 
 // import TableNode from './canvas/node';

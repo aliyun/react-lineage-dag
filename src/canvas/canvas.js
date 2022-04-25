@@ -23,7 +23,7 @@ export default class LineageCanvas extends Canvas {
   focus(nodeId) {
     this.unfocus();
     let node = this._focusItem = this.getNode(nodeId);
-    node.focus();
+    node && node.focus();
   }
   unfocus() {
     if (this._focusItem) {
