@@ -1,6 +1,6 @@
 {
   "name": "react-lineage-dag",
-  "version": "2.0.10",
+  "version": "2.0.11",
   "description": "表格/字段血缘React组件",
   "main": "dist/index.js",
   "pack": "pack/index.js",

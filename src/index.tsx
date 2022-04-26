@@ -5,7 +5,7 @@ import './index.less';
 import 'butterfly-dag/dist/index.css';
 import * as _ from 'lodash';
 import LineageCanvas from './canvas/canvas';
-import {transformInitData, transformEdges, diffPropsData, updateCanvasData} from './adaptor';
+import {transformInitData, transformEdges, diffPropsData, updateCanvasData, diffActionMenuData} from './adaptor';
 import ActionMenu, {action} from './component/action-menu';
 
 interface ComProps {
@@ -247,12 +247,16 @@ export default class LineageDag extends React.Component<ComProps, any> {
 
     updateCanvasData(result.nodes, this.canvas.nodes);
 
-    return false;
+    // action菜单有更新需要react的update机制更新
+    let isNeedUpdate = diffActionMenuData(newProps.actionMenu, this.props.actionMenu);
+
+    return isNeedUpdate;
   }
   render() {
     const {canvas} = this;
     const {actionMenu = []} = this.props;
     const actionMenuVisible = _.get(this, 'props.config.showActionIcon', true);
+
     return (
       <div
         className={this._genClassName()}

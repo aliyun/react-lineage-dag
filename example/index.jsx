@@ -22,8 +22,15 @@ class Com extends React.Component {
     this.state = {
       tables,
       relations,
-      canvas: null
-    }
+      canvas: null,
+      actionMenu: [{
+        icon: <StarOutlined />,
+        key: 'star',
+        onClick: () => {
+          alert('点击收藏！')
+        }
+      }]
+    };
     this.columns = [{
       key: 'name',
       primaryKey: true
@@ -116,6 +123,21 @@ class Com extends React.Component {
         });
       }
     }];
+
+    // 测试修改actionMenu
+    // setTimeout(() => {
+    //   let actionMenu = _.cloneDeep(this.state.actionMenu);
+    //   actionMenu.push({
+    //     icon: <StarOutlined />,
+    //     key: 'star2',
+    //     onClick: () => {
+    //       alert('点击收藏2！')
+    //     }
+    //   });
+    //   this.setState({
+    //     actionMenu
+    //   });
+    // }, 5000)
   }
   render() {
     return (
@@ -151,13 +173,7 @@ class Com extends React.Component {
           }
         }}
 
-        actionMenu={[{
-          icon: <StarOutlined />,
-          key: 'star',
-          onClick: () => {
-            alert('点击收藏！')
-          }
-        }]}
+        actionMenu={this.state.actionMenu}
       />
     );
   }

@@ -129,6 +129,13 @@ export let updateCanvasData = (newNodes, oldNodes) => {
   });
 }
 
+export let diffActionMenuData = (newMenu, oldMenu) => {
+  const isSameMenu = (a, b) => a.key === b.key;
+  let addMenu = _.differenceWith(newMenu, oldMenu, isSameMenu);
+  let rmMenu = _.differenceWith(oldMenu, newMenu, isSameMenu);
+  return addMenu.length !== 0 || rmMenu.length !== 0;
+}
+
 // 'use strict';
 
 // import TableNode from './canvas/node';
