@@ -31,9 +31,9 @@ export let transformInitData = (data) => {
         targetNode: item.tgtTableId,
         // source: item.srcTableColName,
         // target: item.tgtTableColName,
-        source: item.srcTableColName !== undefined ? item.srcTableColName : item.srcTableId + '-right',
-        target: item.tgtTableColName !== undefined ? item.tgtTableColName : item.tgtTableId + '-left',
-        _isNodeEdge: item.srcTableColName === undefined && item.tgtTableColName === undefined,
+        source: (item.srcTableColName !== undefined && item.srcTableColName !== null) ? item.srcTableColName : item.srcTableId + '-right',
+        target: (item.tgtTableColName !== undefined && item.tgtTableColName !== null) ? item.tgtTableColName : item.tgtTableId + '-left',
+        _isNodeEdge: (item.srcTableColName === undefined || item.srcTableColName === null) && (item.tgtTableColName === undefined || item.tgtTableColName === null),
         Class: Edge
       }
     })
@@ -108,6 +108,7 @@ export let diffPropsData = (newData, oldData) => {
       a.target === b.target
     );
   }
+
   let addEdges = _.differenceWith(newData.edges, oldData.edges, isSameEdge);
   let rmEdges = _.differenceWith(oldData.edges, newData.edges, isSameEdge);
 

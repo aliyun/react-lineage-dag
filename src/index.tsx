@@ -206,7 +206,7 @@ export default class LineageDag extends React.Component<ComProps, any> {
 
     result = transformEdges(result.nodes, _.cloneDeep(result.edges));
     let diffInfo = diffPropsData(result, this.canvasData);
-    
+    console.log(diffInfo);
     let isNeedRelayout = false;
 
     if (diffInfo.rmEdges.length > 0) {
