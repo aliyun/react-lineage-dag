@@ -92,7 +92,9 @@ export default class LineageDag extends React.Component<ComProps, any> {
       columns: this.props.columns,
       operator: this.props.operator,
       _titleRender: titleRender,
-      _enableHoverChain: enableHoverChain
+      _enableHoverChain: enableHoverChain,
+      _emptyContent: this.props.emptyContent,
+      _emptyWidth: this.props.emptyWidth
     });
 
     this.originEdges = result.edges;
@@ -196,6 +198,8 @@ export default class LineageDag extends React.Component<ComProps, any> {
       operator: this.props.operator,
       _titleRender: titleRender,
       _enableHoverChain: enableHoverChain,
+      _emptyContent: this.props.emptyContent,
+      _emptyWidth: this.props.emptyWidth
     });
 
     this.originEdges = result.edges;

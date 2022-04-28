@@ -2,6 +2,7 @@ import {Node} from 'butterfly-dag';
 import * as ReactDOM from 'react-dom';
 import $ from 'jquery';
 import * as _ from 'lodash';
+import emptyDom from './empty';
 
 export default class TableNode extends Node {
   constructor(opts) {
@@ -244,12 +245,14 @@ export default class TableNode extends Node {
       this.fieldsList = this.fieldsList.concat(result);
     } else {
       const _emptyContent = _.get(this.options, '_emptyContent');
-      const noDataTree = emptyDom({
-        content: _emptyContent,
-        width: this.options._emptyWidth
-      });
-      container.append(noDataTree);
-      this.height = $(container).outerHeight();
+      if (_emptyContent) {
+        const noDataTree = emptyDom({
+          content: _emptyContent,
+          width: this.options._emptyWidth
+        });
+        container.append(noDataTree);
+        this.height = $(container).outerHeight();
+      }
     }
 
     return result;
