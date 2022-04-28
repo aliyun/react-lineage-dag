@@ -7,7 +7,7 @@ import * as _ from 'lodash';
 export let transformInitData = (data) => {
   let {
     tables, relations, columns, emptyContent, operator,
-    _titleRender, _enableHoverChain
+    _titleRender, _enableHoverChain, _emptyContent, _emptyWidth
   } = data;
 
   let result = {
@@ -18,7 +18,9 @@ export let transformInitData = (data) => {
         _emptyContent: emptyContent,
         _operator: operator,
         _titleRender,
-        _enableHoverChain
+        _enableHoverChain,
+        _emptyContent,
+        _emptyWidth
       }, item);
     }),
     edges: relations.map((item) => {
