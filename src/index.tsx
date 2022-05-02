@@ -206,7 +206,6 @@ export default class LineageDag extends React.Component<ComProps, any> {
 
     result = transformEdges(result.nodes, _.cloneDeep(result.edges));
     let diffInfo = diffPropsData(result, this.canvasData);
-    console.log(diffInfo);
     let isNeedRelayout = false;
 
     if (diffInfo.rmEdges.length > 0) {
@@ -239,12 +238,14 @@ export default class LineageDag extends React.Component<ComProps, any> {
       this.canvas.relayout({
         centerNodeId: newProps.centerId
       });
-      if (newProps.centerId) {
-        this.canvas.focusNodeWithAnimate(newProps.centerId, 'node' , {
-          keepPreZoom: true
-        });
-        this.canvas.focus(newProps.centerId);
-      }
+      setTimeout(() => {
+        if (newProps.centerId) {
+          this.canvas.focusNodeWithAnimate(newProps.centerId, 'node' , {
+            keepPreZoom: true
+          });
+          this.canvas.focus(newProps.centerId);
+        }  
+      }, 50);
     } 
 
     this.canvasData = result;

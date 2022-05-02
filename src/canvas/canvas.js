@@ -19,6 +19,19 @@ export default class LineageCanvas extends Canvas {
         this.unfocusChain(data.node.id, data.fieldId, 'hover-chain');
       });
     }
+    this.on('custom.edge.redraw', (data) => {
+      let node = data.node;
+      let points = data.points;
+      let edges = [];
+      if (points) {
+        points.forEach((_point) => {
+          edges = edges.concat(this.getNeighborEdgesByEndpoint(node.id, _point.id));
+        });
+      } else {
+        edges = this.getNeighborEdges(node.id);
+      }
+      edges.forEach((edge) => edge.redraw());
+    });
   }
   focus(nodeId) {
     this.unfocus();
@@ -102,7 +115,6 @@ export default class LineageCanvas extends Canvas {
     }
   }
   _precollide = (nodes, nodestep, rankstep) => {
-    
     const rank = {};
     let rankKeys = [];
     const after = {};
@@ -169,10 +181,12 @@ export default class LineageCanvas extends Canvas {
       let currentKey = rankKeys[i];
       let nextKey = rankKeys[i + 1];
       let nextLeft = _.get(rank, [nextKey, 0, 'left'], nextKey);
-      if (maxRank[currentKey] - nextLeft > rankstep) {
-        rank[nextKey].forEach((item) => {
-          item.left = maxRank[currentKey];
+      if (nextLeft - maxRank[currentKey] < rankstep) {
+        rank[nextKey].forEach(function (item) {
+          item.left = maxRank[currentKey] + rankstep;
         });
+        let _tmpGap = maxRank[currentKey] + rankstep - nextLeft;
+        maxRank[nextKey] += _tmpGap;
       }
     }
   
