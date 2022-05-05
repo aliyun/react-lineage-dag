@@ -34,4 +34,13 @@ export default class MEdge extends Edge {
     $(this.labelDom).removeClass(rmClass);
     this.setZIndex(0);
   }
+  destroy(isNotEventEmit) {
+    super.destroy(isNotEventEmit);
+    if (!this.sourceNode.options.isCollapse) {
+      $(this.sourceEndpoint.dom).addClass('hidden');
+    }
+    if (!this.targetNode.options.isCollapse) {
+      $(this.targetEndpoint.dom).addClass('hidden');
+    }
+  }
 }
