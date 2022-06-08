@@ -221,7 +221,7 @@ export default class LineageDag extends React.Component<ComProps, any> {
       this.canvas.addNodes(diffInfo.addNodes);
     }
 
-    if (diffInfo.collapseNodes) {
+    if (diffInfo.collapseNodes.length > 0) {
       diffInfo.collapseNodes.forEach((item) => {
         let node = this.canvas.getNode(item.id);
         node.collapse(item.isCollapse);
