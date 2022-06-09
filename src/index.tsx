@@ -242,7 +242,6 @@ export default class LineageDag extends React.Component<ComProps, any> {
         return item._renderPromise;
       });
       Promise.all(nodesRenderPromise).then(() => {
-        console.log('22222');
         this.canvas._renderPromise = new Promise<void>((resolve, reject) => {
           setTimeout(() => {
             if (newProps.centerId) {
