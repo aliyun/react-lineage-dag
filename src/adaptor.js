@@ -38,7 +38,7 @@ export let transformInitData = (data) => {
       }
     })
   };
-
+  console.log(result);
   return result;
 };
 

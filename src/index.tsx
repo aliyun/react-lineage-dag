@@ -86,25 +86,6 @@ export default class LineageDag extends React.Component<ComProps, any> {
     let enableHoverChain = _.get(this.props, 'config.enableHoverChain', true);
     let titleRender = _.get(this.props, 'config.titleRender');
 
-    let result = transformInitData({
-      tables: this.props.tables,
-      relations: this.props.relations,
-      columns: this.props.columns,
-      operator: this.props.operator,
-      _titleRender: titleRender,
-      _enableHoverChain: enableHoverChain,
-      _emptyContent: this.props.emptyContent,
-      _emptyWidth: this.props.emptyWidth
-    });
-
-    this.originEdges = result.edges;
-
-    result = transformEdges(result.nodes, _.cloneDeep(result.edges));
-    this.canvasData = {
-      nodes: result.nodes,
-      edges: result.edges
-    };
-
     let canvasObj = {
       root: root,
       disLinkable: false,
@@ -137,6 +118,25 @@ export default class LineageDag extends React.Component<ComProps, any> {
     };
 
     this.canvas = new LineageCanvas(canvasObj);
+
+    let result = transformInitData({
+      tables: this.props.tables,
+      relations: this.props.relations,
+      columns: this.props.columns,
+      operator: this.props.operator,
+      _titleRender: titleRender,
+      _enableHoverChain: enableHoverChain,
+      _emptyContent: this.props.emptyContent,
+      _emptyWidth: this.props.emptyWidth
+    });
+
+    this.originEdges = result.edges;
+
+    result = transformEdges(result.nodes, _.cloneDeep(result.edges));
+    this.canvasData = {
+      nodes: result.nodes,
+      edges: result.edges
+    };
     
     setTimeout(() => {
       let tmpEdges = result.edges;
@@ -238,12 +238,21 @@ export default class LineageDag extends React.Component<ComProps, any> {
       this.canvas.relayout({
         centerNodeId: newProps.centerId
       });
-      setTimeout(() => {
-        if (newProps.centerId) {
-          this.canvas.focusNodeWithAnimate(newProps.centerId, 'node' , {});
-          this.canvas.focus(newProps.centerId);
-        }  
-      }, 150);
+      let nodesRenderPromise = this.canvas.nodes.map((item) => {
+        return item._renderPromise;
+      });
+      Promise.all(nodesRenderPromise).then(() => {
+        console.log('22222');
+        this.canvas._renderPromise = new Promise<void>((resolve, reject) => {
+          setTimeout(() => {
+            if (newProps.centerId) {
+              this.canvas.focusNodeWithAnimate(newProps.centerId, 'node' , {});
+              this.canvas.focus(newProps.centerId);
+              resolve();
+            }  
+          }, 50);
+        });
+      });
     } 
 
     this.canvasData = result;
