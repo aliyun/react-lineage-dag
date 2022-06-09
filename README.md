@@ -21,7 +21,7 @@ $ npm install react-lineage-dag@2.x
 
 ```jsx
 
-import {LineageTable} from 'react-lineage-dag';
+import LineageDag from 'react-lineage-dag';
 // 需要引入样式
 import 'react-lineage-dag/dist/index.css';
 
@@ -88,7 +88,7 @@ const data = {
 
 const App = () => {
   return (
-    <LineageTable {...data} />
+    <LineageDag {...data} />
   )
 }
 ```
