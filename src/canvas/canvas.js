@@ -6,6 +6,7 @@ import * as _ from 'lodash';
 export default class LineageCanvas extends Canvas {
   constructor(opts) {
     super(opts);
+    this._renderPromise = Promise.resolve();
     this._focusItem = null;
     this._enableHoverChain = opts.data.enableHoverChain;
     this.attachEvent();
@@ -273,5 +274,12 @@ export default class LineageCanvas extends Canvas {
     if (!isInit && edges.length > 30) {
       $(this.svg).css('visibility', 'visible');
     }
+  }
+  addNodes(nodes, isNotEventEmit) {
+    let _addNodes = super.addNodes(nodes, isNotEventEmit);
+    _addNodes.forEach((node) => {
+      node._canvas = this;
+    });
+    return _addNodes;
   }
 }

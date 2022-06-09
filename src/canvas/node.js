@@ -17,6 +17,8 @@ export default class TableNode extends Node {
     this.fieldsList = [];
 
     this.titlesList = [];
+
+    this._renderPromise = Promise.resolve()
   }
   mounted() {
     // 生成field的endpoint
@@ -136,27 +138,32 @@ export default class TableNode extends Node {
     // 渲染title
     if (titleRender) {
       titleDom = $(`<div class="title"></div>`);
-      ReactDOM.render(titleRender(title, this), titleDom[0], () => {
-        if (this.height === 0 || this.width === 0) {
-          this.width = this.options.width = $(this.dom).width();
-          this.height = this.options.height = $(this.dom).height();
-          this.endpoints.forEach((item) => item.updatePos());
-          this.emit('custom.edge.redraw', {
-            node: this
-          })
-        } else {
-          let points = [];
-          this.endpoints.forEach((item) => {
-            if (item.options._isNodeSelf) {
-              item.updatePos();
-              points.push(item);
+      (this._canvas ? this._canvas._renderPromise : Promise.resolve()).then(() => {
+        this._renderPromise = new Promise((resolve, reject) => {
+          ReactDOM.render(titleRender(title, this), titleDom[0], () => {
+            if (this.height === 0 || this.width === 0) {
+              this.width = this.options.width = $(this.dom).width();
+              this.height = this.options.height = $(this.dom).height();
+              this.endpoints.forEach((item) => item.updatePos());
+              this.emit('custom.edge.redraw', {
+                node: this
+              })
+            } else {
+              let points = [];
+              this.endpoints.forEach((item) => {
+                if (item.options._isNodeSelf) {
+                  item.updatePos();
+                  points.push(item);
+                }
+              });
+              this.emit('custom.edge.redraw', {
+                node: this,
+                points
+              })
             }
+            resolve();
           });
-          this.emit('custom.edge.redraw', {
-            node: this,
-            points
-          })
-        }
+        });
       });
     } else if (title) {
       titleDom = $(`<div class="title">${title}</div>`);
