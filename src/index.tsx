@@ -240,12 +240,10 @@ export default class LineageDag extends React.Component<ComProps, any> {
       });
       setTimeout(() => {
         if (newProps.centerId) {
-          this.canvas.focusNodeWithAnimate(newProps.centerId, 'node' , {
-            keepPreZoom: true
-          });
+          this.canvas.focusNodeWithAnimate(newProps.centerId, 'node' , {});
           this.canvas.focus(newProps.centerId);
         }  
-      }, 50);
+      }, 150);
     } 
 
     this.canvasData = result;
