@@ -140,6 +140,7 @@ const App = () => {
   }
 
   interface config {
+    delayDraw: number; // Delayed rendering, this component must ensure that the canvas container rendering (including animation execution) is completed before rendering, otherwise the coordinates will be offset, such as: antd's modal animation
     titleRender?: () => void;                         // title render of custom node
     showActionIcon?: boolean,                        // whether to display the operation icons: zoom in, zoom out, focus
     enableHoverChain: boolean,                       // whether to enable highlight the chain when hovering
