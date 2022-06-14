@@ -226,7 +226,6 @@ export default class TableNode extends Node {
           height: this.ROW_HEIGHT + 'px',
           'line-height': this.ROW_HEIGHT + 'px'
         });
-
         columns.forEach((_col) => {
           if (_col.render) {
             let fieldItemDom = $(`<span class="field-item"></span>`);
