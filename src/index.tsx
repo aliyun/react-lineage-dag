@@ -71,6 +71,7 @@ interface columns {
 
 export default class LineageDag extends React.Component<ComProps, any> {
   props: any;
+  protected _isFirstFocus: any;
   protected canvas: any;
   protected canvasData: any;
   protected originEdges: any;
@@ -79,6 +80,7 @@ export default class LineageDag extends React.Component<ComProps, any> {
     this.canvas = null;
     this.canvasData = null;
     this.originEdges = [];
+    this._isFirstFocus = false;
   }
   componentDidMount() {
     let root = ReactDOM.findDOMNode(this) as HTMLElement;
@@ -171,7 +173,10 @@ export default class LineageDag extends React.Component<ComProps, any> {
           this.canvas.setGridMode(true, _.assign({}, _.get(this, 'props.config.gridMode', {})))
         }
 
-        this.canvas.focusCenterWithAnimate();
+        if (result.nodes.length !== 0) {
+          this.canvas.focusCenterWithAnimate();
+          this._isFirstFocus = true;
+        }
 
         this.forceUpdate();
         this.props.onLoaded && this.props.onLoaded(this.canvas);
@@ -252,6 +257,9 @@ export default class LineageDag extends React.Component<ComProps, any> {
             });
             this.canvas.focus(newProps.centerId);
           } else {
+            if (!this._isFirstFocus) {
+              this.canvas.focusCenterWithAnimate();
+            }
             resolve();
           }
         });
