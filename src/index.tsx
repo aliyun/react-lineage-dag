@@ -100,7 +100,7 @@ export default class LineageDag extends React.Component<ComProps, any> {
           arrow: true,
           isExpandWidth: true,
           arrowPosition: 1,
-          arrowOffset: -13
+          arrowOffset: -5
         },
         endpoint: {
           limitNum: undefined,
@@ -241,15 +241,19 @@ export default class LineageDag extends React.Component<ComProps, any> {
       let nodesRenderPromise = this.canvas.nodes.map((item) => {
         return item._renderPromise;
       });
-      Promise.all(nodesRenderPromise).then(() => {
-        this.canvas._renderPromise = new Promise<void>((resolve, reject) => {
-          setTimeout(() => {
-            if (newProps.centerId) {
-              this.canvas.focusNodeWithAnimate(newProps.centerId, 'node' , {});
-              this.canvas.focus(newProps.centerId);
-              resolve();
-            }  
-          }, 50);
+
+      this.canvas._renderPromise = Promise.all(nodesRenderPromise).then(() => {
+        return new Promise<void>((resolve, reject) => {
+          if (newProps.centerId) {
+            this.canvas.focusNodeWithAnimate(newProps.centerId, 'node' , {}, () => {
+              setTimeout(() => {
+                resolve();
+              }, 50);
+            });
+            this.canvas.focus(newProps.centerId);
+          } else {
+            resolve();
+          }
         });
       });
     } 

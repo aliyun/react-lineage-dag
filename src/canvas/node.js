@@ -18,7 +18,10 @@ export default class TableNode extends Node {
 
     this.titlesList = [];
 
-    this._renderPromise = Promise.resolve()
+    this._renderPromise = Promise.resolve();
+
+    this._isRendering = false;
+    
   }
   mounted() {
     // 生成field的endpoint
@@ -37,6 +40,12 @@ export default class TableNode extends Node {
     }
 
     const node = $(_dom);
+
+    let classname = _.get(this, 'options.classname');
+    if (classname) {
+      node.addClass(classname)
+    }
+
     // 计算节点坐标
     if (obj.top !== undefined) {
       node.css('top', obj.top);
@@ -85,7 +94,7 @@ export default class TableNode extends Node {
     this.options.minimapActive = false;
   }
   redrawTitle() {
-    $(this.dom).find('.title').remove();
+    // $(this.dom).find('.title').remove();
     $(this.dom).find('.operator').remove();
     this._createTableName($(this.dom), true);
   }
@@ -133,11 +142,15 @@ export default class TableNode extends Node {
     let titleRender = _.get(this, 'options._titleRender');
     let operator = _.get(this, 'options._operator');
     let titleCom = isUpdate ? $(this.dom).find('.title-con') : $('<div class="title-con"></div>');
-    let titleDom = null;
+    let titleDom = isUpdate ? $(this.dom).find('.title') : $('<div class="title"></div>');
+
+    if (this._isRendering) {
+      return false;
+    }
 
     // 渲染title
     if (titleRender) {
-      titleDom = $(`<div class="title"></div>`);
+      this._isRendering = true;
       (this._canvas ? this._canvas._renderPromise : Promise.resolve()).then(() => {
         this._renderPromise = new Promise((resolve, reject) => {
           ReactDOM.render(titleRender(title, this), titleDom[0], () => {
@@ -161,18 +174,21 @@ export default class TableNode extends Node {
                 points
               })
             }
+            !isUpdate && titleCom.append(titleDom);
             resolve();
+            this._isRendering = false;
           });
         });
       });
     } else if (title) {
-      titleDom = $(`<div class="title">${title}</div>`);
       titleDom.css({
         'height': this.TITLE_HEIGHT + 'px',
         'line-height': this.TITLE_HEIGHT + 'px'
       });
+      if (!isUpdate) {
+        titleCom.append(titleDom);
+      }
     }
-    titleCom.append(titleDom);
 
     // 渲染操作按钮
     let operatorDom = null;
