@@ -174,7 +174,6 @@ export default class TableNode extends Node {
                 points
               })
             }
-            !isUpdate && titleCom.append(titleDom);
             resolve();
             this._isRendering = false;
           });
@@ -185,9 +184,10 @@ export default class TableNode extends Node {
         'height': this.TITLE_HEIGHT + 'px',
         'line-height': this.TITLE_HEIGHT + 'px'
       });
-      if (!isUpdate) {
-        titleCom.append(titleDom);
-      }
+    }
+
+    if (!isUpdate) {
+      titleCom.append(titleDom);
     }
 
     // 渲染操作按钮
