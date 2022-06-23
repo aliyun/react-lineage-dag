@@ -1,12 +1,12 @@
 {
   "name": "react-lineage-dag",
-  "version": "2.0.32",
+  "version": "2.0.33",
   "description": "表格/字段血缘React组件",
   "main": "dist/index.js",
   "pack": "pack/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rollup -c && cp -r ./src/static ./dist && cp -r ./src/static ./pack",
+    "build": "rollup -c && cp -r ./src/static ./dist && cp -r ./src/static ./pack && tsc -d --emitDeclarationOnly --target esnext --removeComments false --allowJs false --declarationDir ./dist",
     "dev": "rollup -w -c"
   },
   "repository": {
