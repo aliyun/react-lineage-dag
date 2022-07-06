@@ -220,10 +220,12 @@ export default class LineageDag extends React.Component<ComProps, any> {
 
     if (diffInfo.rmNodes.length > 0) {
       this.canvas.removeNodes(diffInfo.rmNodes.map((item) => item.id));
+      isNeedRelayout = true;
     }
 
     if (diffInfo.addNodes.length > 0) {
       this.canvas.addNodes(diffInfo.addNodes);
+      isNeedRelayout = true;
     }
 
     if (diffInfo.collapseNodes.length > 0) {
