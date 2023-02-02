@@ -101,6 +101,7 @@ export default class LineageDag extends React.Component<ComProps, any> {
           // shapeType: 'AdvancedBezier', 
           shapeType: 'AdvancedManhattan', 
           // shapeType: 'Manhattan', 
+          hasRadius: true,
           arrow: true,
           isExpandWidth: true,
           arrowPosition: 1,
