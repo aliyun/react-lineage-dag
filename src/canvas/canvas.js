@@ -237,37 +237,17 @@ export default class LineageCanvas extends Canvas {
     let edgesData = [];
     if (isInit) {
       edgesData = options.edges || [];
-      let obj = {};
-      edgesData.forEach((item) => {
-        obj[item.source] = item.target;
-        obj[item.target] = item.source;
-      });
-      console.log(edgesData.length);
-      // edgesData = edgesData.filter((item) => obj[item.source] !== item.target);
-      // edgesData = _.uniqWith(edgesData, _.isEqual); 
-      console.log(edgesData.length);
-      console.log(edgesData);
     } else {
-      let obj = {};
       edgesData = edges.map((item) => {
-        if (obj[item.sourceNode.id] === item.targetNode.id) {
-          console.log('回环')
-          return undefined;
-        } else {
-          obj[item.sourceNode.id] = item.targetNode.id;
-          obj[item.targetNode.id] = item.sourceNode.id;
-          console.log(obj);
-          return {
-            source: item.sourceNode.id,
-            target: item.targetNode.id
-          }
+        return {
+          source: item.sourceNode.id,
+          target: item.targetNode.id
         }
-      }).filter((item) => item);
+      });
     }
 
     const NODESTEP = 50;
     const RANKSTEP = 70;
-    console.log('Layout.dagreLayout');
     Layout.dagreLayout({
       rankdir: 'LR',
       nodesep:  NODESTEP,
@@ -277,7 +257,6 @@ export default class LineageCanvas extends Canvas {
         edges: edgesData
       }
     });
-    console.log('Layout.dagreLayout');
     // 调整darge后的位置
     this._precollide(nodesData, NODESTEP, RANKSTEP);
 
@@ -285,11 +264,9 @@ export default class LineageCanvas extends Canvas {
     if (options && options.centerNodeId) {
       this._fixCenterNode(nodesData, options.centerNodeId);
     }
-    console.log('Layout.dagreLayout');
     if (!isInit && edges.length > 30) {
       $(this.svg).css('visibility', 'hidden');
     }
-    console.log('Layout.dagreLayout');
     this.nodes.forEach((item, index) => {
       let newLeft = nodesData[index].left;
       let newTop = nodesData[index].top;
@@ -299,8 +276,6 @@ export default class LineageCanvas extends Canvas {
         item.moveTo(newLeft, newTop);
       }
     });
-
-    console.log('Layout.dagreLayout');
     if (!isInit && edges.length > 30) {
       $(this.svg).css('visibility', 'visible');
     }

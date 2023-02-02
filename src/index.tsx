@@ -97,9 +97,9 @@ export default class LineageDag extends React.Component<ComProps, any> {
       theme: {
         edge: {
           type: 'endpoint',
-          shapeType: 'Straight', 
+          // shapeType: 'Straight', 
           // shapeType: 'AdvancedBezier', 
-          // shapeType: 'AdvancedManhattan', 
+          shapeType: 'AdvancedManhattan', 
           // shapeType: 'Manhattan', 
           arrow: true,
           isExpandWidth: true,
@@ -158,28 +158,28 @@ export default class LineageDag extends React.Component<ComProps, any> {
         this.canvas.wrapper.style.visibility = 'visible';
         this.canvas.addEdges(tmpEdges, true);
 
-        // let minimap = _.get(this, 'props.config.minimap', {});
+        let minimap = _.get(this, 'props.config.minimap', {});
 
-        // const minimapCfg = _.assign({}, minimap.config, {
-        //   events: [
-        //     'system.node.click',
-        //     'system.canvas.click'
-        //   ]
-        // });
+        const minimapCfg = _.assign({}, minimap.config, {
+          events: [
+            'system.node.click',
+            'system.canvas.click'
+          ]
+        });
 
-        // if (minimap && minimap.enable) {
-        //   this.canvas.setMinimap(true, minimapCfg);
-        // }
+        if (minimap && minimap.enable) {
+          this.canvas.setMinimap(true, minimapCfg);
+        }
 
-        // if (_.get(this, 'props.config.gridMode')) {
-        //   this.canvas.setGridMode(true, _.assign({}, _.get(this, 'props.config.gridMode', {})))
-        // }
+        if (_.get(this, 'props.config.gridMode')) {
+          this.canvas.setGridMode(true, _.assign({}, _.get(this, 'props.config.gridMode', {})))
+        }
 
-        // if (result.nodes.length !== 0) {
-        //   this.canvas.focusCenterWithAnimate();
-        //   this._isFirstFocus = true;
-        // }
-        // this.props.onLoaded && this.props.onLoaded(this.canvas);
+        if (result.nodes.length !== 0) {
+          this.canvas.focusCenterWithAnimate();
+          this._isFirstFocus = true;
+        }
+        this.props.onLoaded && this.props.onLoaded(this.canvas);
       });
       this.canvas.on('system.node.click', (data) => {
         let node = data.node;
