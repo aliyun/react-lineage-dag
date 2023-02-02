@@ -2,126 +2,789 @@
 import React from 'react';
 
 export let mockData = {
-  tables: [
-    {
-      id: '1',
-      name: 'table-1',
-      // isCollapse: true,
-      fields: [
-        {
-          name: 'id',
-          title: 'id',
-        },
-        {
-          name: 'age',
-          title: 'age'
-        }
-      ]
-    },
-    {
-      id: '2',
-      name: 'table-2',
-      // isCollapse: true,
-      fields: [
-        {
-          name: 'id',
-          title: 'id',
-        },
-        {
-          name: 'age',
-          title: 'age'
-        },
-        {
-          name: 'id2',
-          title: 'id2',
-        },
-        {
-          name: 'age2',
-          title: 'age2'
-        },
-        {
-          name: 'id3',
-          title: 'id3',
-        },
-        {
-          name: 'age3',
-          title: 'age3'
-        },
-        {
-          name: 'id4',
-          title: 'id4',
-        },
-        {
-          name: 'age4',
-          title: 'age4'
-        }
-      ]
-    },
-    {
-      id: '3',
-      name: 'table-3',
-      isCollapse: true,
-      fields: [
-        {
-          name: 'id',
-          title: 'id',
-        },
-        {
-          name: 'age',
-          title: 'age'
-        }
-      ]      
-    },
-    {
-      id: '4',
-      name: 'table-4',
-      isCollapse: true,
-      fields: [
-        {
-          name: 'id',
-          title: 'id',
-        },
-        {
-          name: 'age',
-          title: 'age'
-        }
-      ]      
-    }
-  ],
-  relations: [
-    {
-      srcTableId: '1',
-      tgtTableId: '2',
-      srcTableColName: 'id',
-      tgtTableColName: 'age'
-    },
-    {
-      srcTableId: '1',
-      tgtTableId: '2',
-      srcTableColName: 'id',
-      tgtTableColName: 'id'
-    },    
-    {
-      srcTableId: '1',
-      tgtTableId: '3',
-      srcTableColName: 'id',
-      tgtTableColName: 'age'      
-    },
-    {
-      srcTableId: '2',
-      tgtTableId: '4',
-      srcTableColName: 'id',
-      tgtTableColName: 'age'      
-    },
-    {
-      srcTableId: '2',
-      tgtTableId: '4',
-      srcTableColName: 'id',
-      tgtTableColName: 'id'
-    },
-    {
-      srcTableId: '2',
-      tgtTableId: '4'
-    }    
+  tables: [{
+    "id": "75145",
+    "name": "algtmp_rid_tpwkd_speedflow_m",
+    "isCollapse": false,
+    "nodeType": "PHYSICAL_TABLE",
+    "fields": [{
+      "@type": "ColumnNode",
+      "id": 74502,
+      "properties": {},
+      "entityKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/algtmp_rid_tpwkd_speedflow_m/benchmark_speed_3m",
+      "tenantCode": "qkl",
+      "code": "benchmark_speed_3m",
+      "name": "benchmark_speed_3m",
+      "description": "最近3个月包含等待红绿灯的自由流速度",
+      "nodeType": "COLUMN",
+      "tableKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/algtmp_rid_tpwkd_speedflow_m",
+      "dataType": "DOUBLE",
+      "label": "benchmark_speed_3m",
+      "_tagNode": 1,
+      "_isTarget": false,
+      "_isSource": false
+    }],
+    "driverType": "odps"
+  }, {
+    "id": "75077",
+    "name": "dws_tfc_state_rid_nd_index_m",
+    "isCollapse": false,
+    "nodeType": "PHYSICAL_TABLE",
+    "fields": [{
+      "@type": "ColumnNode",
+      "id": 73249,
+      "properties": {},
+      "entityKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/dws_tfc_state_rid_nd_index_m/benchmark_speed_3m",
+      "tenantCode": "qkl",
+      "code": "benchmark_speed_3m",
+      "name": "benchmark_speed_3m",
+      "description": "最近3个自然月包含等待红绿灯基准速度,km/h",
+      "nodeType": "COLUMN",
+      "tableKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/dws_tfc_state_rid_nd_index_m",
+      "dataType": "DOUBLE",
+      "label": "benchmark_speed_3m",
+      "_tagNode": 1,
+      "_isTarget": false,
+      "_isSource": false
+    }],
+    "driverType": "odps"
+  }, {
+    "id": "103434",
+    "name": "dws_tfc_state_rid_tp_multispeed_d",
+    "isCollapse": false,
+    "nodeType": "PHYSICAL_TABLE",
+    "fields": [{
+      "@type": "ColumnNode",
+      "id": 112229,
+      "properties": {},
+      "entityKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/dws_tfc_state_rid_tp_multispeed_d/step_index",
+      "tenantCode": "qkl",
+      "code": "step_index",
+      "name": "step_index",
+      "description": "时间片序号",
+      "nodeType": "COLUMN",
+      "tableKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/dws_tfc_state_rid_tp_multispeed_d",
+      "dataType": "BIGINT",
+      "label": "step_index",
+      "_tagNode": 1,
+      "_isTarget": false,
+      "_isSource": false
+    }],
+    "driverType": "odps"
+  }, {
+    "id": "103645",
+    "name": "algtmp_fusion_tpwkd_rid_multispeed_m",
+    "isCollapse": false,
+    "nodeType": "PHYSICAL_TABLE",
+    "fields": [{
+      "@type": "ColumnNode",
+      "id": 111138,
+      "properties": {},
+      "entityKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/algtmp_fusion_tpwkd_rid_multispeed_m/step_index",
+      "tenantCode": "qkl",
+      "code": "step_index",
+      "name": "step_index",
+      "description": "时间片",
+      "nodeType": "COLUMN",
+      "tableKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/algtmp_fusion_tpwkd_rid_multispeed_m",
+      "dataType": "BIGINT",
+      "label": "step_index",
+      "_tagNode": 1,
+      "_isTarget": false,
+      "_isSource": false
+    }],
+    "driverType": "odps"
+  }, {
+    "id": "103231",
+    "name": "dwd_tfc_opt_speed_rid_amap_his_m",
+    "isCollapse": false,
+    "nodeType": "PHYSICAL_TABLE",
+    "fields": [{
+      "@type": "ColumnNode",
+      "id": 111677,
+      "properties": {},
+      "entityKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/dwd_tfc_opt_speed_rid_amap_his_m/time_stamp",
+      "tenantCode": "qkl",
+      "code": "time_stamp",
+      "name": "time_stamp",
+      "description": "时刻yyyymmddhhmiss",
+      "nodeType": "COLUMN",
+      "tableKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/dwd_tfc_opt_speed_rid_amap_his_m",
+      "dataType": "STRING",
+      "label": "time_stamp",
+      "_tagNode": 1,
+      "_isTarget": false,
+      "_isSource": false
+    }],
+    "driverType": "odps"
+  }, {
+    "id": "103609",
+    "name": "dwd_tfc_opt_speed_rid_amap_d",
+    "isCollapse": false,
+    "nodeType": "PHYSICAL_TABLE",
+    "fields": [{
+      "@type": "ColumnNode",
+      "id": 111096,
+      "properties": {},
+      "entityKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/dwd_tfc_opt_speed_rid_amap_d/time_stamp",
+      "tenantCode": "qkl",
+      "code": "time_stamp",
+      "name": "time_stamp",
+      "description": "时刻yyyymmddhhmiss",
+      "nodeType": "COLUMN",
+      "tableKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/dwd_tfc_opt_speed_rid_amap_d",
+      "dataType": "STRING",
+      "label": "time_stamp",
+      "_tagNode": 1,
+      "_isTarget": false,
+      "_isSource": false
+    }],
+    "driverType": "odps"
+  }, {
+    "id": "103229",
+    "name": "algtmp_fusion_tp_rid_multispeed_d",
+    "isCollapse": false,
+    "nodeType": "PHYSICAL_TABLE",
+    "fields": [{
+      "@type": "ColumnNode",
+      "id": 111806,
+      "properties": {},
+      "entityKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/algtmp_fusion_tp_rid_multispeed_d/step_index",
+      "tenantCode": "qkl",
+      "code": "step_index",
+      "name": "step_index",
+      "description": "时间片序号",
+      "nodeType": "COLUMN",
+      "tableKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/algtmp_fusion_tp_rid_multispeed_d",
+      "dataType": "BIGINT",
+      "label": "step_index",
+      "_tagNode": 1,
+      "_isTarget": false,
+      "_isSource": false
+    }],
+    "driverType": "odps"
+  }, {
+    "id": "103657",
+    "name": "algtmp_fusion_tp_rid_speed_default_m",
+    "isCollapse": false,
+    "nodeType": "PHYSICAL_TABLE",
+    "fields": [{
+      "@type": "ColumnNode",
+      "id": 112392,
+      "properties": {},
+      "entityKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/algtmp_fusion_tp_rid_speed_default_m/step_index",
+      "tenantCode": "qkl",
+      "code": "step_index",
+      "name": "step_index",
+      "description": "时间片序号",
+      "nodeType": "COLUMN",
+      "tableKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/algtmp_fusion_tp_rid_speed_default_m",
+      "dataType": "BIGINT",
+      "label": "step_index",
+      "_tagNode": 1,
+      "_isTarget": false,
+      "_isSource": false
+    }],
+    "driverType": "odps"
+  }, {
+    "id": "103693",
+    "name": "algtmp_fusion_tp_rid_multispeed_md_d",
+    "isCollapse": false,
+    "nodeType": "PHYSICAL_TABLE",
+    "fields": [{
+      "@type": "ColumnNode",
+      "id": 113366,
+      "properties": {},
+      "entityKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/algtmp_fusion_tp_rid_multispeed_md_d/step_index",
+      "tenantCode": "qkl",
+      "code": "step_index",
+      "name": "step_index",
+      "description": "时间片序号",
+      "nodeType": "COLUMN",
+      "tableKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/algtmp_fusion_tp_rid_multispeed_md_d",
+      "dataType": "BIGINT",
+      "label": "step_index",
+      "_tagNode": 1,
+      "_isTarget": false,
+      "_isSource": false
+    }],
+    "driverType": "odps"
+  }, {
+    "id": "103385",
+    "name": "algtmp_utm_tp_rid_multispeed_d",
+    "isCollapse": false,
+    "nodeType": "PHYSICAL_TABLE",
+    "fields": [{
+      "@type": "ColumnNode",
+      "id": 113235,
+      "properties": {},
+      "entityKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/algtmp_utm_tp_rid_multispeed_d/step_index",
+      "tenantCode": "qkl",
+      "code": "step_index",
+      "name": "step_index",
+      "description": "时间片序号",
+      "nodeType": "COLUMN",
+      "tableKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/algtmp_utm_tp_rid_multispeed_d",
+      "dataType": "BIGINT",
+      "label": "step_index",
+      "_tagNode": 1,
+      "_isTarget": false,
+      "_isSource": false
+    }],
+    "driverType": "odps"
+  }, {
+    "id": "103434",
+    "name": "dws_tfc_state_rid_tp_multispeed_d",
+    "isCollapse": false,
+    "nodeType": "PHYSICAL_TABLE",
+    "fields": [{
+      "@type": "ColumnNode",
+      "id": 111497,
+      "properties": {},
+      "entityKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/dws_tfc_state_rid_tp_multispeed_d/speed",
+      "tenantCode": "qkl",
+      "code": "speed",
+      "name": "speed",
+      "description": "融合速度（含等待红绿灯），单位为km/h，0为无效速度",
+      "nodeType": "COLUMN",
+      "tableKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/dws_tfc_state_rid_tp_multispeed_d",
+      "dataType": "DOUBLE",
+      "label": "speed",
+      "_tagNode": 1,
+      "_isTarget": false,
+      "_isSource": false
+    }],
+    "driverType": "odps"
+  }, {
+    "id": "103645",
+    "name": "algtmp_fusion_tpwkd_rid_multispeed_m",
+    "isCollapse": false,
+    "nodeType": "PHYSICAL_TABLE",
+    "fields": [{
+      "@type": "ColumnNode",
+      "id": 111742,
+      "properties": {},
+      "entityKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/algtmp_fusion_tpwkd_rid_multispeed_m/avg_speed_3m",
+      "tenantCode": "qkl",
+      "code": "avg_speed_3m",
+      "name": "avg_speed_3m",
+      "description": "1月均速",
+      "nodeType": "COLUMN",
+      "tableKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/algtmp_fusion_tpwkd_rid_multispeed_m",
+      "dataType": "DOUBLE",
+      "label": "avg_speed_3m",
+      "_tagNode": 1,
+      "_isTarget": false,
+      "_isSource": false
+    }],
+    "driverType": "odps"
+  }, {
+    "id": "103231",
+    "name": "dwd_tfc_opt_speed_rid_amap_his_m",
+    "isCollapse": false,
+    "nodeType": "PHYSICAL_TABLE",
+    "fields": [{
+      "@type": "ColumnNode",
+      "id": 111745,
+      "properties": {},
+      "entityKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/dwd_tfc_opt_speed_rid_amap_his_m/month",
+      "tenantCode": "qkl",
+      "code": "month",
+      "name": "month",
+      "description": "月份",
+      "nodeType": "COLUMN",
+      "tableKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/dwd_tfc_opt_speed_rid_amap_his_m",
+      "dataType": "STRING",
+      "label": "month",
+      "_tagNode": 1,
+      "_isTarget": false,
+      "_isSource": false
+    }],
+    "driverType": "odps"
+  }, {
+    "id": "103229",
+    "name": "algtmp_fusion_tp_rid_multispeed_d",
+    "isCollapse": false,
+    "nodeType": "PHYSICAL_TABLE",
+    "fields": [{
+      "@type": "ColumnNode",
+      "id": 113412,
+      "properties": {},
+      "entityKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/algtmp_fusion_tp_rid_multispeed_d/dt",
+      "tenantCode": "qkl",
+      "code": "dt",
+      "name": "dt",
+      "description": "日期yyyymmdd",
+      "nodeType": "COLUMN",
+      "tableKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/algtmp_fusion_tp_rid_multispeed_d",
+      "dataType": "STRING",
+      "label": "dt",
+      "_tagNode": 1,
+      "_isTarget": false,
+      "_isSource": false
+    }],
+    "driverType": "odps"
+  }, {
+    "id": "103231",
+    "name": "dwd_tfc_opt_speed_rid_amap_his_m",
+    "isCollapse": false,
+    "nodeType": "PHYSICAL_TABLE",
+    "fields": [{
+      "@type": "ColumnNode",
+      "id": 112002,
+      "properties": {},
+      "entityKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/dwd_tfc_opt_speed_rid_amap_his_m/speed",
+      "tenantCode": "qkl",
+      "code": "speed",
+      "name": "speed",
+      "description": "包含等待红绿灯的速度，单位为km/h，0为无效速度",
+      "nodeType": "COLUMN",
+      "tableKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/dwd_tfc_opt_speed_rid_amap_his_m",
+      "dataType": "DOUBLE",
+      "label": "speed",
+      "_tagNode": 1,
+      "_isTarget": false,
+      "_isSource": false
+    }],
+    "driverType": "odps"
+  }, {
+    "id": "103609",
+    "name": "dwd_tfc_opt_speed_rid_amap_d",
+    "isCollapse": false,
+    "nodeType": "PHYSICAL_TABLE",
+    "fields": [{
+      "@type": "ColumnNode",
+      "id": 112212,
+      "properties": {},
+      "entityKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/dwd_tfc_opt_speed_rid_amap_d/speed",
+      "tenantCode": "qkl",
+      "code": "speed",
+      "name": "speed",
+      "description": "包含等待红绿灯的速度，单位为km/h，0为无效速度",
+      "nodeType": "COLUMN",
+      "tableKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/dwd_tfc_opt_speed_rid_amap_d",
+      "dataType": "DOUBLE",
+      "label": "speed",
+      "_tagNode": 1,
+      "_isTarget": false,
+      "_isSource": false
+    }],
+    "driverType": "odps"
+  }, {
+    "id": "103229",
+    "name": "algtmp_fusion_tp_rid_multispeed_d",
+    "isCollapse": false,
+    "nodeType": "PHYSICAL_TABLE",
+    "fields": [{
+      "@type": "ColumnNode",
+      "id": 112619,
+      "properties": {},
+      "entityKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/algtmp_fusion_tp_rid_multispeed_d/speed",
+      "tenantCode": "qkl",
+      "code": "speed",
+      "name": "speed",
+      "description": "融合速度（含等待红绿灯），单位为km/h，0为无效速度",
+      "nodeType": "COLUMN",
+      "tableKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/algtmp_fusion_tp_rid_multispeed_d",
+      "dataType": "DOUBLE",
+      "label": "speed",
+      "_tagNode": 1,
+      "_isTarget": false,
+      "_isSource": false
+    }],
+    "driverType": "odps"
+  }, {
+    "id": "103693",
+    "name": "algtmp_fusion_tp_rid_multispeed_md_d",
+    "isCollapse": false,
+    "nodeType": "PHYSICAL_TABLE",
+    "fields": [{
+      "@type": "ColumnNode",
+      "id": 113392,
+      "properties": {},
+      "entityKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/algtmp_fusion_tp_rid_multispeed_md_d/speed",
+      "tenantCode": "qkl",
+      "code": "speed",
+      "name": "speed",
+      "description": "融合速度（含等待红绿灯），单位为km/h，0为无效速度",
+      "nodeType": "COLUMN",
+      "tableKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/algtmp_fusion_tp_rid_multispeed_md_d",
+      "dataType": "DOUBLE",
+      "label": "speed",
+      "_tagNode": 1,
+      "_isTarget": false,
+      "_isSource": false
+    }],
+    "driverType": "odps"
+  }, {
+    "id": "103385",
+    "name": "algtmp_utm_tp_rid_multispeed_d",
+    "isCollapse": false,
+    "nodeType": "PHYSICAL_TABLE",
+    "fields": [{
+      "@type": "ColumnNode",
+      "id": 111159,
+      "properties": {},
+      "entityKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/algtmp_utm_tp_rid_multispeed_d/speed",
+      "tenantCode": "qkl",
+      "code": "speed",
+      "name": "speed",
+      "description": "融合速度（含等待红绿灯），单位为km/h，0为无效速度",
+      "nodeType": "COLUMN",
+      "tableKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/algtmp_utm_tp_rid_multispeed_d",
+      "dataType": "DOUBLE",
+      "label": "speed",
+      "_tagNode": 1,
+      "_isTarget": false,
+      "_isSource": false
+    }],
+    "driverType": "odps"
+  }, {
+    "id": "103657",
+    "name": "algtmp_fusion_tp_rid_speed_default_m",
+    "isCollapse": false,
+    "nodeType": "PHYSICAL_TABLE",
+    "fields": [{
+      "@type": "ColumnNode",
+      "id": 113533,
+      "properties": {},
+      "entityKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/algtmp_fusion_tp_rid_speed_default_m/speed",
+      "tenantCode": "qkl",
+      "code": "speed",
+      "name": "speed",
+      "description": "速度",
+      "nodeType": "COLUMN",
+      "tableKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/algtmp_fusion_tp_rid_speed_default_m",
+      "dataType": "DOUBLE",
+      "label": "speed",
+      "_tagNode": 1,
+      "_isTarget": false,
+      "_isSource": false
+    }],
+    "driverType": "odps"
+  }, {
+    "id": "103364",
+    "name": "algtmp_fusion_rid_benchmark_speed",
+    "isCollapse": false,
+    "nodeType": "PHYSICAL_TABLE",
+    "fields": [{
+      "@type": "ColumnNode",
+      "id": 112458,
+      "properties": {},
+      "entityKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/algtmp_fusion_rid_benchmark_speed/benchmark_speed",
+      "tenantCode": "qkl",
+      "code": "benchmark_speed",
+      "name": "benchmark_speed",
+      "description": "基准速度",
+      "nodeType": "COLUMN",
+      "tableKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/algtmp_fusion_rid_benchmark_speed",
+      "dataType": "DOUBLE",
+      "label": "benchmark_speed",
+      "_tagNode": 1,
+      "_isTarget": false,
+      "_isSource": false
+    }],
+    "driverType": "odps"
+  }, {
+    "id": "75154",
+    "name": "dwd_tfc_bas_rdnet_rid_info",
+    "isCollapse": false,
+    "nodeType": "PHYSICAL_TABLE",
+    "fields": [{
+      "@type": "ColumnNode",
+      "id": 74990,
+      "properties": {},
+      "entityKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/dwd_tfc_bas_rdnet_rid_info/max_speed",
+      "tenantCode": "qkl",
+      "code": "max_speed",
+      "name": "max_speed",
+      "description": "最大限速：取link中最大限速km/h ",
+      "nodeType": "COLUMN",
+      "tableKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/dwd_tfc_bas_rdnet_rid_info",
+      "dataType": "BIGINT",
+      "label": "max_speed",
+      "_tagNode": 1,
+      "_isTarget": false,
+      "_isSource": false
+    }],
+    "driverType": "odps"
+  }, {
+    "id": "75174",
+    "name": "dws_tfc_state_tfcdline_tp_index_d",
+    "isCollapse": false,
+    "nodeType": "PHYSICAL_TABLE",
+    "fields": [{
+      "@type": "ColumnNode",
+      "id": 73337,
+      "properties": {},
+      "entityKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/dws_tfc_state_tfcdline_tp_index_d/fw_speed",
+      "tenantCode": "qkl",
+      "code": "fw_speed",
+      "name": "fw_speed",
+      "description": "当前时间片上等待红绿灯流量加权计算的等待红绿灯速度",
+      "nodeType": "COLUMN",
+      "tableKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/dws_tfc_state_tfcdline_tp_index_d",
+      "dataType": "DOUBLE",
+      "label": "fw_speed",
+      "_tagNode": 1,
+      "_isTarget": false,
+      "_isSource": false
+    }],
+    "driverType": "odps"
+  }, {
+    "id": "120450",
+    "name": "dws_tfc_state_tfcdline_tpwkd_multispeedindex_m",
+    "isCollapse": false,
+    "nodeType": "PHYSICAL_TABLE",
+    "fields": [{
+      "@type": "ColumnNode",
+      "id": 124641,
+      "properties": {},
+      "entityKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/dws_tfc_state_tfcdline_tpwkd_multispeedindex_m/avg_fw_speed_3m",
+      "tenantCode": "qkl",
+      "code": "avg_fw_speed_3m",
+      "name": "avg_fw_speed_3m",
+      "description": "近13自然月该时间片上通过流量加权计算等待红绿灯的平均速度",
+      "nodeType": "COLUMN",
+      "tableKey": "qkl/qOiHksWorcaKNjS7TeV73A==:Y0P0n6bBjjh9jfuoTRUWLw==/dws_tfc_state_tfcdline_tpwkd_multispeedindex_m",
+      "dataType": "DOUBLE",
+      "label": "avg_fw_speed_3m",
+      "_tagNode": 1,
+      "_isTarget": false,
+      "_isSource": false
+    }],
+    "driverType": "odps"
+  }, {
+    "id": "64178",
+    "name": "service_tfc_tfcdline_dtvs_tp_wkd_linetypeno_index_m",
+    "isCollapse": false,
+    "nodeType": "PHYSICAL_TABLE",
+    "fields": [{
+      "@type": "ColumnNode",
+      "id": 63704,
+      "properties": {},
+      "entityKey": "qkl/jc+n+j3/X6Kw4pvNfdqWGg==:Y0P0n6bBjjh9jfuoTRUWLw==/service_tfc_tfcdline_dtvs_tp_wkd_linetypeno_index_m/avg_fw_speed_3m",
+      "tenantCode": "qkl",
+      "code": "avg_fw_speed_3m",
+      "name": "avg_fw_speed_3m",
+      "description": "近3自然月该时间片上通过流量加权计算等待红绿灯的平均速度",
+      "nodeType": "COLUMN",
+      "tableKey": "qkl/jc+n+j3/X6Kw4pvNfdqWGg==:Y0P0n6bBjjh9jfuoTRUWLw==/service_tfc_tfcdline_dtvs_tp_wkd_linetypeno_index_m",
+      "dataType": "DOUBLE",
+      "label": "avg_fw_speed_3m",
+      "_tagNode": 1,
+      "_isTarget": false,
+      "_isSource": false
+    }],
+    "driverType": "ots"
+  }],
+  relations: [{
+    "srcTableId": "75145",
+    "tgtTableId": "75174",
+    "srcTableColName": "benchmark_speed_3m",
+    "tgtTableColName": "fw_speed"
+  }, {
+    "srcTableId": "75077",
+    "tgtTableId": "75145",
+    "srcTableColName": "benchmark_speed_3m",
+    "tgtTableColName": "benchmark_speed_3m"
+  }, {
+    "srcTableId": "103434",
+    "tgtTableId": "75077",
+    "srcTableColName": "speed",
+    "tgtTableColName": "benchmark_speed_3m"
+  }, {
+    "srcTableId": "103434",
+    "tgtTableId": "75077",
+    "srcTableColName": "step_index",
+    "tgtTableColName": "benchmark_speed_3m"
+  }, {
+    "srcTableId": "103693",
+    "tgtTableId": "103434",
+    "srcTableColName": "step_index",
+    "tgtTableColName": "step_index"
+  }, {
+    "srcTableId": "103657",
+    "tgtTableId": "103434",
+    "srcTableColName": "step_index",
+    "tgtTableColName": "step_index"
+  }, {
+    "srcTableId": "103645",
+    "tgtTableId": "103434",
+    "srcTableColName": "step_index",
+    "tgtTableColName": "step_index"
+  }, {
+    "srcTableId": "103229",
+    "tgtTableId": "103645",
+    "srcTableColName": "step_index",
+    "tgtTableColName": "step_index"
+  }, {
+    "srcTableId": "103231",
+    "tgtTableId": "103645",
+    "srcTableColName": "time_stamp",
+    "tgtTableColName": "step_index"
+  }, {
+    "srcTableId": "103609",
+    "tgtTableId": "103231",
+    "srcTableColName": "time_stamp",
+    "tgtTableColName": "time_stamp"
+  }, {
+    "srcTableId": "103693",
+    "tgtTableId": "103229",
+    "srcTableColName": "step_index",
+    "tgtTableColName": "step_index"
+  }, {
+    "srcTableId": "103657",
+    "tgtTableId": "103229",
+    "srcTableColName": "step_index",
+    "tgtTableColName": "step_index"
+  }, {
+    "srcTableId": "103645",
+    "tgtTableId": "103229",
+    "srcTableColName": "step_index",
+    "tgtTableColName": "step_index"
+  }, {
+    "srcTableId": "103385",
+    "tgtTableId": "103693",
+    "srcTableColName": "step_index",
+    "tgtTableColName": "step_index"
+  }, {
+    "srcTableId": "103609",
+    "tgtTableId": "103693",
+    "srcTableColName": "time_stamp",
+    "tgtTableColName": "step_index"
+  }, {
+    "srcTableId": "103657",
+    "tgtTableId": "103434",
+    "srcTableColName": "speed",
+    "tgtTableColName": "speed"
+  }, {
+    "srcTableId": "103693",
+    "tgtTableId": "103434",
+    "srcTableColName": "speed",
+    "tgtTableColName": "speed"
+  }, {
+    "srcTableId": "103645",
+    "tgtTableId": "103434",
+    "srcTableColName": "avg_speed_3m",
+    "tgtTableColName": "speed"
+  }, {
+    "srcTableId": "103229",
+    "tgtTableId": "103645",
+    "srcTableColName": "speed",
+    "tgtTableColName": "avg_speed_3m"
+  }, {
+    "srcTableId": "103231",
+    "tgtTableId": "103645",
+    "srcTableColName": "speed",
+    "tgtTableColName": "avg_speed_3m"
+  }, {
+    "srcTableId": "103229",
+    "tgtTableId": "103645",
+    "srcTableColName": "dt",
+    "tgtTableColName": "avg_speed_3m"
+  }, {
+    "srcTableId": "103231",
+    "tgtTableId": "103645",
+    "srcTableColName": "month",
+    "tgtTableColName": "avg_speed_3m"
+  }, {
+    "srcTableId": "103609",
+    "tgtTableId": "103231",
+    "srcTableColName": "speed",
+    "tgtTableColName": "speed"
+  }, {
+    "srcTableId": "103657",
+    "tgtTableId": "103229",
+    "srcTableColName": "speed",
+    "tgtTableColName": "speed"
+  }, {
+    "srcTableId": "103693",
+    "tgtTableId": "103229",
+    "srcTableColName": "speed",
+    "tgtTableColName": "speed"
+  }, {
+    "srcTableId": "103645",
+    "tgtTableId": "103229",
+    "srcTableColName": "avg_speed_3m",
+    "tgtTableColName": "speed"
+  }, {
+    "srcTableId": "103609",
+    "tgtTableId": "103693",
+    "srcTableColName": "speed",
+    "tgtTableColName": "speed"
+  }, {
+    "srcTableId": "103385",
+    "tgtTableId": "103693",
+    "srcTableColName": "speed",
+    "tgtTableColName": "speed"
+  }, {
+    "srcTableId": "103364",
+    "tgtTableId": "103657",
+    "srcTableColName": "benchmark_speed",
+    "tgtTableColName": "speed"
+  }
+  , {
+    "srcTableId": "75077",
+    "tgtTableId": "103364",
+    "srcTableColName": "benchmark_speed_3m",
+    "tgtTableColName": "benchmark_speed"
+  }, {
+    "srcTableId": "75154",
+    "tgtTableId": "103364",
+    "srcTableColName": "max_speed",
+    "tgtTableColName": "benchmark_speed"
+  }, {
+    "srcTableId": "75174",
+    "tgtTableId": "120450",
+    "srcTableColName": "fw_speed",
+    "tgtTableColName": "avg_fw_speed_3m"
+  }, 
+  {
+    "srcTableId": "120450",
+    "tgtTableId": "64178",
+    "srcTableColName": "avg_fw_speed_3m",
+    "tgtTableColName": "avg_fw_speed_3m"
+  }
   ]
+  // relations: [
+  //   {
+  //     srcTableId: '1',
+  //     tgtTableId: '2',
+  //     srcTableColName: 'id',
+  //     tgtTableColName: 'age'
+  //   },
+  //   {
+  //     srcTableId: '1',
+  //     tgtTableId: '2',
+  //     srcTableColName: 'id',
+  //     tgtTableColName: 'id'
+  //   },    
+  //   {
+  //     srcTableId: '1',
+  //     tgtTableId: '3',
+  //     srcTableColName: 'id',
+  //     tgtTableColName: 'age'      
+  //   },
+  //   {
+  //     srcTableId: '2',
+  //     tgtTableId: '4',
+  //     srcTableColName: 'id',
+  //     tgtTableColName: 'age'      
+  //   },
+  //   {
+  //     srcTableId: '2',
+  //     tgtTableId: '4',
+  //     srcTableColName: 'id',
+  //     tgtTableColName: 'id'
+  //   },
+  //   {
+  //     srcTableId: '2',
+  //     tgtTableId: '4'
+  //   },
+  //   {
+  //     srcTableId: '4',
+  //     tgtTableId: '2'
+  //   }    
+  // ]
 }

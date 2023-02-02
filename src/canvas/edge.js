@@ -18,9 +18,9 @@ export default class MEdge extends Edge {
       $(this.targetEndpoint.dom).removeClass('hidden');
     }
   }
-  calcPath(sourcePoint, targetPoint) {
-    return calcPath(sourcePoint, targetPoint);
-  }
+  // calcPath(sourcePoint, targetPoint) {
+  //   return calcPath(sourcePoint, targetPoint);
+  // }
   focusChain(addClass = 'hover-chain') {
     $(this.dom).addClass(addClass);
     $(this.arrowDom).addClass(addClass);

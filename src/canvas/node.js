@@ -29,7 +29,9 @@ export default class TableNode extends Node {
 
     this.width = this.options.width = $(this.dom).width();
     this.height = this.options.height = $(this.dom).height();
-
+    if (_.get(this, 'options._titleRender')) {
+      this.height+= this.TITLE_HEIGHT;
+    }
   }
   draw(obj) {
     let _dom = obj.dom;
@@ -162,16 +164,12 @@ export default class TableNode extends Node {
                 node: this
               })
             } else {
-              let points = [];
               this.endpoints.forEach((item) => {
-                if (item.options._isNodeSelf) {
-                  item.updatePos();
-                  points.push(item);
-                }
+                item.updatePos();
               });
               this.emit('custom.edge.redraw', {
                 node: this,
-                points
+                points: this.endpoints
               })
             }
             resolve();

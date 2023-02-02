@@ -87,7 +87,6 @@ export default class LineageDag extends React.Component<ComProps, any> {
 
     let enableHoverChain = _.get(this.props, 'config.enableHoverChain', true);
     let titleRender = _.get(this.props, 'config.titleRender');
-
     let canvasObj = {
       root: root,
       disLinkable: false,
@@ -98,7 +97,10 @@ export default class LineageDag extends React.Component<ComProps, any> {
       theme: {
         edge: {
           type: 'endpoint',
+          shapeType: 'Straight', 
           // shapeType: 'AdvancedBezier', 
+          // shapeType: 'AdvancedManhattan', 
+          // shapeType: 'Manhattan', 
           arrow: true,
           isExpandWidth: true,
           arrowPosition: 1,
@@ -143,7 +145,7 @@ export default class LineageDag extends React.Component<ComProps, any> {
     setTimeout(() => {
       let tmpEdges = result.edges;
       result.edges = [];
-      // this.canvas.wrapper.style.visibility = 'hidden';
+      this.canvas.wrapper.style.visibility = 'hidden';
       this.canvas.draw(result, () => {
         this.canvas.relayout({
           edges: tmpEdges.map((item) => {
@@ -153,33 +155,31 @@ export default class LineageDag extends React.Component<ComProps, any> {
             }
           })
         }, true);
-        // this.canvas.wrapper.style.visibility = 'visible';
+        this.canvas.wrapper.style.visibility = 'visible';
         this.canvas.addEdges(tmpEdges, true);
 
-        let minimap = _.get(this, 'props.config.minimap', {});
+        // let minimap = _.get(this, 'props.config.minimap', {});
 
-        const minimapCfg = _.assign({}, minimap.config, {
-          events: [
-            'system.node.click',
-            'system.canvas.click'
-          ]
-        });
+        // const minimapCfg = _.assign({}, minimap.config, {
+        //   events: [
+        //     'system.node.click',
+        //     'system.canvas.click'
+        //   ]
+        // });
 
-        if (minimap && minimap.enable) {
-          this.canvas.setMinimap(true, minimapCfg);
-        }
+        // if (minimap && minimap.enable) {
+        //   this.canvas.setMinimap(true, minimapCfg);
+        // }
 
-        if (_.get(this, 'props.config.gridMode')) {
-          this.canvas.setGridMode(true, _.assign({}, _.get(this, 'props.config.gridMode', {})))
-        }
+        // if (_.get(this, 'props.config.gridMode')) {
+        //   this.canvas.setGridMode(true, _.assign({}, _.get(this, 'props.config.gridMode', {})))
+        // }
 
-        if (result.nodes.length !== 0) {
-          this.canvas.focusCenterWithAnimate();
-          this._isFirstFocus = true;
-        }
-
-        this.forceUpdate();
-        this.props.onLoaded && this.props.onLoaded(this.canvas);
+        // if (result.nodes.length !== 0) {
+        //   this.canvas.focusCenterWithAnimate();
+        //   this._isFirstFocus = true;
+        // }
+        // this.props.onLoaded && this.props.onLoaded(this.canvas);
       });
       this.canvas.on('system.node.click', (data) => {
         let node = data.node;
@@ -211,6 +211,7 @@ export default class LineageDag extends React.Component<ComProps, any> {
 
     result = transformEdges(result.nodes, _.cloneDeep(result.edges));
     let diffInfo = diffPropsData(result, this.canvasData);
+    
     let isNeedRelayout = false;
 
     if (diffInfo.rmEdges.length > 0) {
@@ -240,7 +241,6 @@ export default class LineageDag extends React.Component<ComProps, any> {
       this.canvas.addEdges(diffInfo.addEdges);
       isNeedRelayout = true;
     }
-
     if (isNeedRelayout) {
       this.canvas.relayout({
         centerNodeId: newProps.centerId
@@ -248,7 +248,6 @@ export default class LineageDag extends React.Component<ComProps, any> {
       let nodesRenderPromise = this.canvas.nodes.map((item) => {
         return item._renderPromise;
       });
-
       this.canvas._renderPromise = Promise.all(nodesRenderPromise).then(() => {
         return new Promise<void>((resolve, reject) => {
           if (newProps.centerId) {
