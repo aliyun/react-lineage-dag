@@ -179,6 +179,7 @@ export default class LineageDag extends React.Component<ComProps, any> {
           this.canvas.focusCenterWithAnimate();
           this._isFirstFocus = true;
         }
+        this.forceUpdate();
         this.props.onLoaded && this.props.onLoaded(this.canvas);
       });
       this.canvas.on('system.node.click', (data) => {
