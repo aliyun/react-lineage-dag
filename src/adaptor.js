@@ -3,6 +3,29 @@ import TableNode from './canvas/node';
 import Edge from './canvas/edge';
 import * as _ from 'lodash';
 
+export const calcNodeSize = (node) => {
+  let width = 60;
+  let height = 35;
+  let minWidth = 200;
+  let maxWidth = 260;
+  width += node.name.length * 6;
+  (node.fields || []).forEach((item) => {
+    height += 25;
+  });
+  if (width < minWidth) {
+    width = minWidth
+  }
+  if (width > maxWidth) {
+    width = maxWidth;
+  }
+  node.width = width;
+  node.height = height;
+  return {
+    width,
+    height
+  }
+}
+
 // 初始化数据转换
 export let transformInitData = (data) => {
   let {
@@ -12,6 +35,7 @@ export let transformInitData = (data) => {
 
   let result = {
     nodes: tables.map((item) => {
+      calcNodeSize(item);
       return _.assign({
         Class: TableNode,
         _columns: columns,
