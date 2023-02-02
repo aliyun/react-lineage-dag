@@ -68,6 +68,9 @@ export default class LineageCanvas extends Canvas {
     let resultFields = [];
 
     let queue = [{nodeId, fieldId, type: 'both'}];
+
+    let tmpNodeObj = {}; // 防止回环
+
     while(queue.length > 0) {
       let item = queue.pop();
       let node = this.getNode(item.nodeId);
@@ -94,6 +97,10 @@ export default class LineageCanvas extends Canvas {
       resultEdges = resultEdges.concat(sourceEdges).concat(targetEdges);
       
       sourceEdges.forEach((_item) => {
+        if (tmpNodeObj[`${_item.options.targetNode}-${_item.options.target}`]) {
+          return;
+        }
+        tmpNodeObj[`${_item.options.targetNode}-${_item.options.target}`] = true;
         queue.push({
           nodeId: _item.options.targetNode,
           fieldId: _item.options.target.replace('-left', ''),
@@ -102,6 +109,10 @@ export default class LineageCanvas extends Canvas {
       });
 
       targetEdges.forEach((_item) => {
+        if (tmpNodeObj[`${_item.options.sourceNode}-${_item.options.source}`]) {
+          return;
+        }
+        tmpNodeObj[`${_item.options.sourceNode}-${_item.options.source}`] = true;
         queue.push({
           nodeId: _item.options.sourceNode,
           fieldId: _item.options.source.replace('-right', ''),
