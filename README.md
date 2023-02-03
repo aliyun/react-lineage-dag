@@ -144,6 +144,7 @@ const App = () => {
     titleRender?: (title: string, node:any) => void; // 自定义节点的title render
     showActionIcon?: boolean,                        // 是否展示操作icon：放大，缩小，聚焦
     enableHoverChain: boolean,                       // 是否开启hover高亮链路
+    enableHoverAnimate: boolean,                     // 是否开启hover高亮血缘链路带动画
     minimap?: {                                      // 是否开启缩略图
       enable: boolean,
       config: {

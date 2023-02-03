@@ -9,6 +9,7 @@ export default class LineageCanvas extends Canvas {
     this._renderPromise = Promise.resolve();
     this._focusItem = null;
     this._enableHoverChain = opts.data.enableHoverChain;
+    this._enableHoverAnimate = opts.data.enableHoverAnimate;
     this.attachEvent();
   }
   attachEvent() {
@@ -49,6 +50,11 @@ export default class LineageCanvas extends Canvas {
     let chain = this._findChain(nodeId, fieldId);
     chain.edges.forEach((item) => {
       item.focusChain(addClass);
+      if (this._enableHoverAnimate) {
+        item.addAnimate({
+          color: '#f66902'
+        });
+      }
     });
     chain.fileds.forEach((item) => {
       $(item).addClass(addClass);
@@ -58,6 +64,10 @@ export default class LineageCanvas extends Canvas {
     let chain = this._findChain(nodeId, fieldId);
     chain.edges.forEach((item) => {
       item.unfocusChain(rmClass);
+      item.removeAnimate();
+      if (this._enableHoverAnimate) {
+        item.removeAnimate();
+      }
     });
     chain.fileds.forEach((item) => {
       $(item).removeClass(rmClass);
