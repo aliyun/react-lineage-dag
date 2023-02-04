@@ -309,12 +309,14 @@ export default class TableNode extends Node {
   _createNodeEndpoint(isInit) {
     let leftType = this._rankdir === 'RL' ? 'source' : 'target';
     let rightType = this._rankdir === 'RL' ? 'target' : 'source';
+    let targetOrientation = this._rankdir === 'RL' ? [1,0] : [-1,0];
+    let sourceOrientation = this._rankdir === 'RL' ? [-1,0] : [1,0];
     // 给节点add endpoint
     if (isInit) {
       this.titlesList.forEach((item) => {
         this.addEndpoint({
           id: item.id,
-          orientation: item.type === 'target' ? [-1,0] : [1,0],
+          orientation: item.type === 'target' ? targetOrientation : sourceOrientation,
           dom: item.dom,
           originId: this.id,
           type: item.type,
