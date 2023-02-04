@@ -10,6 +10,7 @@ export default class LineageCanvas extends Canvas {
     this._focusItem = null;
     this._enableHoverChain = opts.data.enableHoverChain;
     this._enableHoverAnimate = opts.data.enableHoverAnimate;
+    this._rankdir = opts.data.rankdir;
     this.attachEvent();
   }
   attachEvent() {
@@ -76,6 +77,8 @@ export default class LineageCanvas extends Canvas {
   _findChain(nodeId, fieldId) {
     let resultEdges = [];
     let resultFields = [];
+    let sourceType = this._rankdir === 'RL' ? 'left' : 'right';
+    let targetType = this._rankdir === 'RL' ? 'right' : 'left';
 
     let queue = [{nodeId, fieldId, type: 'both'}];
 
@@ -95,12 +98,12 @@ export default class LineageCanvas extends Canvas {
       let sourceEdges = [], targetEdges = [];
       if (item.type === 'both' || item.type === 'source') {
         sourceEdges = edges.filter((_item) => {
-          return _item.options.sourceNode === node.id && _item.options.source === `${item.fieldId}-right`;
+          return _item.options.sourceNode === node.id && _item.options.source === `${item.fieldId}-${sourceType}`;
         });
       }
       if (item.type === 'both' || item.type === 'target') {
         targetEdges = edges.filter((_item) => {
-          return _item.options.targetNode === node.id && _item.options.target === `${item.fieldId}-left`;
+          return _item.options.targetNode === node.id && _item.options.target === `${item.fieldId}-${targetType}`;
         });
       }
 
@@ -113,7 +116,7 @@ export default class LineageCanvas extends Canvas {
         tmpNodeObj[`${_item.options.targetNode}-${_item.options.target}`] = true;
         queue.push({
           nodeId: _item.options.targetNode,
-          fieldId: _item.options.target.replace('-left', ''),
+          fieldId: _item.options.target.replace(`-${targetType}`, ''),
           type: 'source'
         });
       });
@@ -125,7 +128,7 @@ export default class LineageCanvas extends Canvas {
         tmpNodeObj[`${_item.options.sourceNode}-${_item.options.source}`] = true;
         queue.push({
           nodeId: _item.options.sourceNode,
-          fieldId: _item.options.source.replace('-right', ''),
+          fieldId: _item.options.source.replace(`-${sourceType}`, ''),
           type: 'target'
         });
       });
@@ -260,7 +263,7 @@ export default class LineageCanvas extends Canvas {
     const NODESTEP = 70;
     const RANKSTEP = 70;
     Layout.dagreLayout({
-      rankdir: 'LR',
+      rankdir: this._rankdir,
       nodesep:  NODESTEP,
       ranksep:  RANKSTEP,
       data: {
