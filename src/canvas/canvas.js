@@ -48,7 +48,7 @@ export default class LineageCanvas extends Canvas {
   }
   focusChain(nodeId, fieldId, addClass) {
     let chain = this._findChain(nodeId, fieldId);
-    chain.edges.forEach((item) => {
+    _.uniqBy(chain.edges, 'id').forEach((item) => {
       item.focusChain(addClass);
       if (this._enableHoverAnimate) {
         item.addAnimate({
@@ -62,7 +62,7 @@ export default class LineageCanvas extends Canvas {
   }
   unfocusChain(nodeId, fieldId, rmClass) {
     let chain = this._findChain(nodeId, fieldId);
-    chain.edges.forEach((item) => {
+    _.uniqBy(chain.edges, 'id').forEach((item) => {
       item.unfocusChain(rmClass);
       item.removeAnimate();
       if (this._enableHoverAnimate) {
@@ -256,7 +256,8 @@ export default class LineageCanvas extends Canvas {
       });
     }
 
-    const NODESTEP = 50;
+    // NODESTEP不能少于70，不然空间太窄，没办法避障
+    const NODESTEP = 70;
     const RANKSTEP = 70;
     Layout.dagreLayout({
       rankdir: 'LR',

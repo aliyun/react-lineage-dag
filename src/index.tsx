@@ -103,6 +103,7 @@ export default class LineageDag extends React.Component<ComProps, any> {
           shapeType: 'AdvancedManhattan', 
           // shapeType: 'Manhattan', 
           hasRadius: true,
+          radius: 8,
           arrow: true,
           isExpandWidth: true,
           arrowPosition: 1,
@@ -159,6 +160,11 @@ export default class LineageDag extends React.Component<ComProps, any> {
           })
         }, true);
         this.canvas.wrapper.style.visibility = 'visible';
+        
+        // 测试
+        // console.log(tmpEdges);
+        // tmpEdges = tmpEdges.filter((item) => item.id === '75077-75145-benchmark_speed_3m-benchmark_speed_3m');
+
         this.canvas.addEdges(tmpEdges, true);
 
         let minimap = _.get(this, 'props.config.minimap', {});

@@ -27,6 +27,8 @@ export default class TableNode extends Node {
     // 生成field的endpoint
     this._createNodeEndpoint(true);
 
+    // $(this.dom).attr('id', this.id);
+
     this.width = this.options.width = $(this.dom).width();
     this.height = this.options.height = $(this.dom).height();
     if (_.get(this, 'options._titleRender')) {

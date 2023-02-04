@@ -3,13 +3,12 @@
 import {Edge} from 'butterfly-dag';
 import $ from 'jquery';
 
-import calcPath from './calc_path';
-
 export default class MEdge extends Edge {
   constructor(opts) {
     super(opts);
   }
   mounted() {
+    $(this.dom).attr('id', this.id);
     if (!this.sourceNode.options.isCollapse) {
       $(this.sourceEndpoint.dom).removeClass('hidden');
     }
@@ -17,9 +16,6 @@ export default class MEdge extends Edge {
       $(this.targetEndpoint.dom).removeClass('hidden');
     }
   }
-  // calcPath(sourcePoint, targetPoint) {
-  //   return calcPath(sourcePoint, targetPoint);
-  // }
   focusChain(addClass = 'hover-chain') {
     $(this.dom).addClass(addClass);
     $(this.arrowDom).addClass(addClass);
