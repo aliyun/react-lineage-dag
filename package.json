@@ -1,6 +1,6 @@
 {
   "name": "react-lineage-dag",
-  "version": "2.1.0-beta.13",
+  "version": "2.1.0-beta.14",
   "description": "表格/字段血缘React组件",
   "main": "dist/index.js",
   "pack": "pack/index.js",
@@ -26,11 +26,11 @@
     "react-dom": ">15.6.1",
     "lodash": "^4.17.20",
     "jquery": ">3.5.1",
-    "butterfly-dag": "5.1.0-beta.19"
+    "butterfly-dag": "5.1.0-beta.20"
   },
   "devDependencies": {
     "@babel/core": "~7.12.0",
-    "butterfly-dag": "5.1.0-beta.19",
+    "butterfly-dag": "5.1.0-beta.20",
     "@babel/plugin-proposal-class-properties": "~7.12.1",
     "@babel/plugin-proposal-object-rest-spread": "~7.12.0",
     "@babel/plugin-transform-modules-commonjs": "^7.12.1",
