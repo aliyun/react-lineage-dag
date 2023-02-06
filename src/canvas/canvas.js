@@ -65,7 +65,6 @@ export default class LineageCanvas extends Canvas {
     let chain = this._findChain(nodeId, fieldId);
     _.uniqBy(chain.edges, 'id').forEach((item) => {
       item.unfocusChain(rmClass);
-      item.removeAnimate();
       if (this._enableHoverAnimate) {
         item.removeAnimate();
       }
