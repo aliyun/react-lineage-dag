@@ -8,7 +8,7 @@ export default class MEdge extends Edge {
     super(opts);
   }
   mounted() {
-    $(this.dom).attr('id', this.id);
+    // $(this.dom).attr('id', this.id);
     if (!this.sourceNode.options.isCollapse) {
       $(this.sourceEndpoint.dom).removeClass('hidden');
     }

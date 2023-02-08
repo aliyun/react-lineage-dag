@@ -61,6 +61,7 @@ export default class LineageCanvas extends Canvas {
       item.focusChain(addClass);
       if (this._enableHoverAnimate) {
         item.addAnimate({
+          speed: 100,
           color: '#f66902'
         });
       }
@@ -73,7 +74,6 @@ export default class LineageCanvas extends Canvas {
     let chain = this._findChain(nodeId, fieldId);
     _.uniqBy(chain.edges, 'id').forEach((item) => {
       item.unfocusChain(rmClass);
-      item.removeAnimate();
       if (this._enableHoverAnimate) {
         item.removeAnimate();
       }
