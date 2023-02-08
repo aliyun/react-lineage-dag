@@ -363,6 +363,7 @@ export default class LineageCanvas extends Canvas {
         this.chainEdges.push(_edge);
         _edge.addAnimate({
           color: '#f66902',
+          speed: 100,
           radius: 3
         });
       }
