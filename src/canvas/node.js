@@ -141,6 +141,17 @@ export default class TableNode extends Node {
       });
     });
 
+    $(this.dom).find('.title-con').on('mouseenter', (e) => {
+      this.emit('custom.node.mouseenter', {
+        node: this
+      });
+    });
+    $(this.dom).find('.title-con').on('mouseleave', (e) => {
+      this.emit('custom.node.mouseleave', {
+        node: this
+      });
+    });
+
     this.setDraggable(this.draggable);
   }
   _createTableName(container = $(this.dom), isUpdate) {
