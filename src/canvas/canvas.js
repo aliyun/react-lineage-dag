@@ -53,6 +53,7 @@ export default class LineageCanvas extends Canvas {
       item.focusChain(addClass);
       if (this._enableHoverAnimate) {
         item.addAnimate({
+          speed: 100,
           color: '#f66902'
         });
       }
