@@ -11,6 +11,8 @@ export default class LineageCanvas extends Canvas {
     this._enableHoverChain = opts.data.enableHoverChain;
     this._enableHoverAnimate = opts.data.enableHoverAnimate;
     this._rankdir = opts.data.rankdir;
+    this.chainEdges = [];
+    this.unChainEdges = [];
     this.attachEvent();
   }
   attachEvent() {
@@ -34,6 +36,12 @@ export default class LineageCanvas extends Canvas {
         edges = this.getNeighborEdges(node.id);
       }
       edges.forEach((edge) => edge.redraw());
+    });
+    this.on('custom.node.mouseenter', (data) => {
+      this.focusNodeChain(data.node.id);
+    });
+    this.on('custom.node.mouseleave', (data) => {
+      this.unfocusNodeChain();
     });
   }
   focus(nodeId) {
@@ -300,5 +308,93 @@ export default class LineageCanvas extends Canvas {
       node._canvas = this;
     });
     return _addNodes;
+  }
+
+  _findNodeChain(nodeId) {
+    let resultEdges = [];
+    let resultNodes = [];
+    let queue = [{nodeId, type: 'both'}];
+    let _nodeObj = {
+      [nodeId]: {
+        source: true,
+        target: true
+      }
+    };
+    while(queue.length > 0) {
+      let item = queue.pop();
+      let node = this.getNode(item.nodeId);
+      let neighborEdges = this.getNeighborEdges(node.id);
+      node && resultNodes.push(node.id);
+      neighborEdges.forEach(edge => {
+        if ((item.type === 'both' || item.type === 'source') && edge.sourceNode.id === node.id) {
+          resultEdges.push(edge.id);
+          if (!_.get(_nodeObj, [edge.targetNode.id, 'target'])) {
+            queue.push({
+              type: 'source',
+              nodeId: edge.targetNode.id
+            });
+            _.set(_nodeObj, [edge.targetNode.id, 'target'], true);
+          }
+        }
+        if ((item.type === 'both' || item.type === 'target') && edge.targetNode.id === node.id) {
+          resultEdges.push(edge.id);
+          if (!_.get(_nodeObj, [edge.sourceNode.id, 'source'])) {
+            queue.push({
+              type: 'target',
+              nodeId: edge.sourceNode.id
+            });
+            _.set(_nodeObj, [edge.sourceNode.id, 'source'], true);
+          }
+        }
+      });
+    }
+    return {
+      edges: resultEdges,
+      nodes: resultNodes
+    }
+  }
+
+  focusNodeChain(nodeId) {
+    let chain = this._findNodeChain(nodeId);
+    _.uniqBy(this.edges, 'id').forEach(_edge => {
+      if (!chain.edges.includes(_edge.id)) {
+        this.unChainEdges.push(_edge);
+      } else {
+        this.chainEdges.push(_edge);
+        _edge.addAnimate({
+          color: '#f66902',
+          speed: 100,
+          radius: 3
+        });
+      }
+    });
+    this.nodes.forEach(_node => {
+      if (!chain.nodes.includes(_node.id)) {
+        _node.unfocus();
+      } else {
+        _node.focus();
+      }
+    });
+    this.unChainEdges.forEach(item => {
+      item.focusChain('unhover-chain');
+    });
+    this.chainEdges.forEach(item => {
+      item.focusChain('hover-chain');
+    });
+  }
+  
+  unfocusNodeChain() {
+    this.chainEdges.forEach(_edge => {
+      _edge.unfocusChain('hover-chain');
+      _edge.removeAnimate();
+    }); 
+    this.unChainEdges.forEach(_edge => {
+      _edge.unfocusChain('unhover-chain');
+    });
+    this.chainEdges = [];
+    this.unChainEdges = [];
+    this.nodes.forEach(_node => {
+      _node.unfocus();
+    });
   }
 }
