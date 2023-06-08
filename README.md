@@ -26,6 +26,12 @@ import LineageDag from 'react-lineage-dag';
 import 'react-lineage-dag/dist/index.css';
 
 const data = {
+  columns: [{
+    key: 'name',
+    primaryKey: true
+  }, {
+    key: 'title',
+  }],
   tables: [
     {
       id: '1',
