@@ -22,7 +22,7 @@ interface ComProps {
     enableHoverAnimate: boolean,                     // 是否开启hover高亮血缘链路带动画
     minimap?: {                                      // 是否开启缩略图
       enable: boolean,
-      config: {
+      config?: {
         nodeColor: any
       }
     },
@@ -170,7 +170,7 @@ export default class LineageDag extends React.Component<ComProps, any> {
 
         this.canvas.addEdges(tmpEdges, true);
 
-        let minimap = _.get(this, 'props.config.minimap', {});
+        let minimap:any = _.get(this, 'props.config.minimap', {});
 
         const minimapCfg = _.assign({}, minimap.config, {
           events: [
