@@ -242,6 +242,11 @@ export default class TableNode extends Node {
   _createFields(container = $(this.dom)) {
     let fields = _.get(this, 'options.fields');
     let columns = _.get(this, 'options._columns');
+    
+    if (!columns || columns.length === 0) {
+      return;
+    }
+
     let isCollapse = _.get(this, 'options.isCollapse');
     let _primaryKey = columns[0].key;
     let result = [];
