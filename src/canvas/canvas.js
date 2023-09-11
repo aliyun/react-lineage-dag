@@ -9,6 +9,10 @@ export default class LineageCanvas extends Canvas {
     this._renderPromise = Promise.resolve();
     this._focusItem = null;
     this._enableHoverChain = opts.data.enableHoverChain;
+    this._enableHoverAnimate = opts.data.enableHoverAnimate;
+    this._rankdir = opts.data.rankdir;
+    this.chainEdges = [];
+    this.unChainEdges = [];
     this.attachEvent();
   }
   attachEvent() {
@@ -33,6 +37,12 @@ export default class LineageCanvas extends Canvas {
       }
       edges.forEach((edge) => edge.redraw());
     });
+    this.on('custom.node.mouseenter', (data) => {
+      this.focusNodeChain(data.node.id);
+    });
+    this.on('custom.node.mouseleave', (data) => {
+      this.unfocusNodeChain();
+    });
   }
   focus(nodeId) {
     this.unfocus();
@@ -47,8 +57,14 @@ export default class LineageCanvas extends Canvas {
   }
   focusChain(nodeId, fieldId, addClass) {
     let chain = this._findChain(nodeId, fieldId);
-    chain.edges.forEach((item) => {
+    _.uniqBy(chain.edges, 'id').forEach((item) => {
       item.focusChain(addClass);
+      if (this._enableHoverAnimate) {
+        item.addAnimate({
+          speed: 100,
+          color: '#f66902'
+        });
+      }
     });
     chain.fileds.forEach((item) => {
       $(item).addClass(addClass);
@@ -56,8 +72,11 @@ export default class LineageCanvas extends Canvas {
   }
   unfocusChain(nodeId, fieldId, rmClass) {
     let chain = this._findChain(nodeId, fieldId);
-    chain.edges.forEach((item) => {
+    _.uniqBy(chain.edges, 'id').forEach((item) => {
       item.unfocusChain(rmClass);
+      if (this._enableHoverAnimate) {
+        item.removeAnimate();
+      }
     });
     chain.fileds.forEach((item) => {
       $(item).removeClass(rmClass);
@@ -66,8 +85,13 @@ export default class LineageCanvas extends Canvas {
   _findChain(nodeId, fieldId) {
     let resultEdges = [];
     let resultFields = [];
+    let sourceType = this._rankdir === 'RL' ? 'left' : 'right';
+    let targetType = this._rankdir === 'RL' ? 'right' : 'left';
 
     let queue = [{nodeId, fieldId, type: 'both'}];
+
+    let tmpNodeObj = {}; // 防止回环
+
     while(queue.length > 0) {
       let item = queue.pop();
       let node = this.getNode(item.nodeId);
@@ -82,29 +106,37 @@ export default class LineageCanvas extends Canvas {
       let sourceEdges = [], targetEdges = [];
       if (item.type === 'both' || item.type === 'source') {
         sourceEdges = edges.filter((_item) => {
-          return _item.options.sourceNode === node.id && _item.options.source === `${item.fieldId}-right`;
+          return _item.options.sourceNode === node.id && _item.options.source === `${item.fieldId}-${sourceType}`;
         });
       }
       if (item.type === 'both' || item.type === 'target') {
         targetEdges = edges.filter((_item) => {
-          return _item.options.targetNode === node.id && _item.options.target === `${item.fieldId}-left`;
+          return _item.options.targetNode === node.id && _item.options.target === `${item.fieldId}-${targetType}`;
         });
       }
 
       resultEdges = resultEdges.concat(sourceEdges).concat(targetEdges);
       
       sourceEdges.forEach((_item) => {
+        if (tmpNodeObj[`${_item.options.targetNode}-${_item.options.target}`]) {
+          return;
+        }
+        tmpNodeObj[`${_item.options.targetNode}-${_item.options.target}`] = true;
         queue.push({
           nodeId: _item.options.targetNode,
-          fieldId: _item.options.target.replace('-left', ''),
+          fieldId: _item.options.target.replace(`-${targetType}`, ''),
           type: 'source'
         });
       });
 
       targetEdges.forEach((_item) => {
+        if (tmpNodeObj[`${_item.options.sourceNode}-${_item.options.source}`]) {
+          return;
+        }
+        tmpNodeObj[`${_item.options.sourceNode}-${_item.options.source}`] = true;
         queue.push({
           nodeId: _item.options.sourceNode,
-          fieldId: _item.options.source.replace('-right', ''),
+          fieldId: _item.options.source.replace(`-${sourceType}`, ''),
           type: 'target'
         });
       });
@@ -235,11 +267,11 @@ export default class LineageCanvas extends Canvas {
       });
     }
 
-    const NODESTEP = 50;
+    // NODESTEP不能少于70，不然空间太窄，没办法避障
+    const NODESTEP = 70;
     const RANKSTEP = 70;
-
     Layout.dagreLayout({
-      rankdir: 'LR',
+      rankdir: this._rankdir,
       nodesep:  NODESTEP,
       ranksep:  RANKSTEP,
       data: {
@@ -247,7 +279,6 @@ export default class LineageCanvas extends Canvas {
         edges: edgesData
       }
     });
-
     // 调整darge后的位置
     this._precollide(nodesData, NODESTEP, RANKSTEP);
 
@@ -255,11 +286,9 @@ export default class LineageCanvas extends Canvas {
     if (options && options.centerNodeId) {
       this._fixCenterNode(nodesData, options.centerNodeId);
     }
-
     if (!isInit && edges.length > 30) {
       $(this.svg).css('visibility', 'hidden');
     }
-
     this.nodes.forEach((item, index) => {
       let newLeft = nodesData[index].left;
       let newTop = nodesData[index].top;
@@ -269,8 +298,6 @@ export default class LineageCanvas extends Canvas {
         item.moveTo(newLeft, newTop);
       }
     });
-
-
     if (!isInit && edges.length > 30) {
       $(this.svg).css('visibility', 'visible');
     }
@@ -281,5 +308,95 @@ export default class LineageCanvas extends Canvas {
       node._canvas = this;
     });
     return _addNodes;
+  }
+
+  _findNodeChain(nodeId) {
+    let resultEdges = [];
+    let resultNodes = [];
+    let queue = [{nodeId, type: 'both'}];
+    let _nodeObj = {
+      [nodeId]: {
+        source: true,
+        target: true
+      }
+    };
+    while(queue.length > 0) {
+      let item = queue.pop();
+      let node = this.getNode(item.nodeId);
+      let neighborEdges = this.getNeighborEdges(node.id);
+      node && resultNodes.push(node.id);
+      neighborEdges.forEach(edge => {
+        if ((item.type === 'both' || item.type === 'source') && edge.sourceNode.id === node.id) {
+          resultEdges.push(edge.id);
+          if (!_.get(_nodeObj, [edge.targetNode.id, 'target'])) {
+            queue.push({
+              type: 'source',
+              nodeId: edge.targetNode.id
+            });
+            _.set(_nodeObj, [edge.targetNode.id, 'target'], true);
+          }
+        }
+        if ((item.type === 'both' || item.type === 'target') && edge.targetNode.id === node.id) {
+          resultEdges.push(edge.id);
+          if (!_.get(_nodeObj, [edge.sourceNode.id, 'source'])) {
+            queue.push({
+              type: 'target',
+              nodeId: edge.sourceNode.id
+            });
+            _.set(_nodeObj, [edge.sourceNode.id, 'source'], true);
+          }
+        }
+      });
+    }
+    return {
+      edges: resultEdges,
+      nodes: resultNodes
+    }
+  }
+
+  focusNodeChain(nodeId) {
+    let chain = this._findNodeChain(nodeId);
+    _.uniqBy(this.edges, 'id').forEach(_edge => {
+      if (!chain.edges.includes(_edge.id)) {
+        this.unChainEdges.push(_edge);
+      } else {
+        this.chainEdges.push(_edge);
+        if (this._enableHoverAnimate) {
+          _edge.addAnimate({
+            color: '#f66902',
+            speed: 100,
+            radius: 3
+          });
+        }
+      }
+    });
+    this.nodes.forEach(_node => {
+      if (!chain.nodes.includes(_node.id)) {
+        _node.unfocus();
+      } else {
+        _node.focus();
+      }
+    });
+    this.unChainEdges.forEach(item => {
+      item.focusChain('unhover-chain');
+    });
+    this.chainEdges.forEach(item => {
+      item.focusChain('hover-chain');
+    });
+  }
+  
+  unfocusNodeChain() {
+    this.chainEdges.forEach(_edge => {
+      _edge.unfocusChain('hover-chain');
+      _edge.removeAnimate();
+    }); 
+    this.unChainEdges.forEach(_edge => {
+      _edge.unfocusChain('unhover-chain');
+    });
+    this.chainEdges = [];
+    this.unChainEdges = [];
+    this.nodes.forEach(_node => {
+      _node.unfocus();
+    });
   }
 }

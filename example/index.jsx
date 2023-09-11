@@ -153,6 +153,8 @@ class Com extends React.Component {
           });
         }}
         config={{
+          enableHoverAnimate: true,
+          rankdir: 'RL',
           titleRender: (title, node) => {
             return <div className="title-test" onClick={() => {
               let tables = _.cloneDeep(this.state.tables);

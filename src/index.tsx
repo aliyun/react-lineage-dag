@@ -19,9 +19,10 @@ interface ComProps {
     titleRender: (node:ITable) => void,              // 自定义节点的title render
     showActionIcon?: boolean,                        // 是否展示操作icon：放大，缩小，聚焦
     enableHoverChain: boolean,                       // 是否开启hover高亮血缘链路
+    enableHoverAnimate: boolean,                     // 是否开启hover高亮血缘链路带动画
     minimap?: {                                      // 是否开启缩略图
       enable: boolean,
-      config: {
+      config?: {
         nodeColor: any
       }
     },
@@ -37,6 +38,7 @@ interface ComProps {
       }
     },
     butterfly: any;                                 // 小蝴蝶的画布配置，参考：https://github.com/alibaba/butterfly/blob/dev/v4/docs/zh-CN/canvas.md
+    rankdir: string;                                // 布局方向 支持LR/RL
   },
   emptyContent?: string | JSX.Element,
   emptyWidth?: number | string,
@@ -87,7 +89,7 @@ export default class LineageDag extends React.Component<ComProps, any> {
 
     let enableHoverChain = _.get(this.props, 'config.enableHoverChain', true);
     let titleRender = _.get(this.props, 'config.titleRender');
-
+    let rankdir = _.get(this.props, 'config.rankdir', 'LR');
     let canvasObj = {
       root: root,
       disLinkable: false,
@@ -98,7 +100,12 @@ export default class LineageDag extends React.Component<ComProps, any> {
       theme: {
         edge: {
           type: 'endpoint',
+          // shapeType: 'Straight', 
           // shapeType: 'AdvancedBezier', 
+          shapeType: 'AdvancedManhattan', 
+          // shapeType: 'Manhattan', 
+          hasRadius: true,
+          radius: 8,
           arrow: true,
           isExpandWidth: true,
           arrowPosition: 1,
@@ -115,7 +122,9 @@ export default class LineageDag extends React.Component<ComProps, any> {
         }
       },
       data: {
-        enableHoverChain: enableHoverChain
+        enableHoverChain: enableHoverChain,
+        enableHoverAnimate: _.get(this.props, 'config.enableHoverAnimate', false),
+        rankdir
       }
     };
 
@@ -130,11 +139,11 @@ export default class LineageDag extends React.Component<ComProps, any> {
       _enableHoverChain: enableHoverChain,
       _emptyContent: this.props.emptyContent,
       _emptyWidth: this.props.emptyWidth
-    });
+    }, rankdir);
 
     this.originEdges = result.edges;
 
-    result = transformEdges(result.nodes, _.cloneDeep(result.edges));
+    result = transformEdges(result.nodes, _.cloneDeep(result.edges), rankdir);
     this.canvasData = {
       nodes: result.nodes,
       edges: result.edges
@@ -143,7 +152,7 @@ export default class LineageDag extends React.Component<ComProps, any> {
     setTimeout(() => {
       let tmpEdges = result.edges;
       result.edges = [];
-      // this.canvas.wrapper.style.visibility = 'hidden';
+      this.canvas.wrapper.style.visibility = 'hidden';
       this.canvas.draw(result, () => {
         this.canvas.relayout({
           edges: tmpEdges.map((item) => {
@@ -153,10 +162,15 @@ export default class LineageDag extends React.Component<ComProps, any> {
             }
           })
         }, true);
-        // this.canvas.wrapper.style.visibility = 'visible';
+        this.canvas.wrapper.style.visibility = 'visible';
+        
+        // 测试
+        // console.log(tmpEdges);
+        // tmpEdges = tmpEdges.filter((item) => item.id === '75077-75145-benchmark_speed_3m-benchmark_speed_3m');
+
         this.canvas.addEdges(tmpEdges, true);
 
-        let minimap = _.get(this, 'props.config.minimap', {});
+        let minimap:any = _.get(this, 'props.config.minimap', {});
 
         const minimapCfg = _.assign({}, minimap.config, {
           events: [
@@ -177,7 +191,6 @@ export default class LineageDag extends React.Component<ComProps, any> {
           this.canvas.focusCenterWithAnimate();
           this._isFirstFocus = true;
         }
-
         this.forceUpdate();
         this.props.onLoaded && this.props.onLoaded(this.canvas);
       });
@@ -195,6 +208,7 @@ export default class LineageDag extends React.Component<ComProps, any> {
 
     let enableHoverChain = _.get(newProps, 'config.enableHoverChain', true);
     let titleRender = _.get(this.props, 'config.titleRender');
+    let rankdir = _.get(this.props, 'config.rankdir', 'LR');
 
     let result = transformInitData({
       tables: newProps.tables,
@@ -205,12 +219,13 @@ export default class LineageDag extends React.Component<ComProps, any> {
       _enableHoverChain: enableHoverChain,
       _emptyContent: this.props.emptyContent,
       _emptyWidth: this.props.emptyWidth
-    });
+    }, rankdir);
 
     this.originEdges = result.edges;
 
-    result = transformEdges(result.nodes, _.cloneDeep(result.edges));
+    result = transformEdges(result.nodes, _.cloneDeep(result.edges), rankdir);
     let diffInfo = diffPropsData(result, this.canvasData);
+    
     let isNeedRelayout = false;
 
     if (diffInfo.rmEdges.length > 0) {
@@ -240,7 +255,6 @@ export default class LineageDag extends React.Component<ComProps, any> {
       this.canvas.addEdges(diffInfo.addEdges);
       isNeedRelayout = true;
     }
-
     if (isNeedRelayout) {
       this.canvas.relayout({
         centerNodeId: newProps.centerId
@@ -248,7 +262,6 @@ export default class LineageDag extends React.Component<ComProps, any> {
       let nodesRenderPromise = this.canvas.nodes.map((item) => {
         return item._renderPromise;
       });
-
       this.canvas._renderPromise = Promise.all(nodesRenderPromise).then(() => {
         return new Promise<void>((resolve, reject) => {
           if (newProps.centerId) {

@@ -3,15 +3,42 @@ import TableNode from './canvas/node';
 import Edge from './canvas/edge';
 import * as _ from 'lodash';
 
+export const calcNodeSize = (node) => {
+  let width = 60;
+  let height = 35;
+  let minWidth = 200;
+  let maxWidth = 260;
+  width += node.name.length * 6;
+  (node.fields || []).forEach((item) => {
+    height += 25;
+  });
+  if (width < minWidth) {
+    width = minWidth
+  }
+  if (width > maxWidth) {
+    width = maxWidth;
+  }
+  node.width = width;
+  node.height = height;
+  return {
+    width,
+    height
+  }
+}
+
 // 初始化数据转换
-export let transformInitData = (data) => {
+export let transformInitData = (data, rankdir = 'LR') => {
   let {
     tables, relations, columns, emptyContent, operator,
     _titleRender, _enableHoverChain, _emptyContent, _emptyWidth
   } = data;
 
+  let sourceType = rankdir === 'RL' ? 'left' : 'right';
+  let targetType = rankdir === 'RL' ? 'right' : 'left';
+
   let result = {
     nodes: tables.map((item) => {
+      calcNodeSize(item);
       return _.assign({
         Class: TableNode,
         _columns: columns,
@@ -20,7 +47,8 @@ export let transformInitData = (data) => {
         _titleRender,
         _enableHoverChain,
         _emptyContent,
-        _emptyWidth
+        _emptyWidth,
+        _rankdir: rankdir
       }, item);
     }),
     edges: relations.map((item) => {
@@ -31,8 +59,8 @@ export let transformInitData = (data) => {
         targetNode: item.tgtTableId,
         // source: item.srcTableColName,
         // target: item.tgtTableColName,
-        source: (item.srcTableColName !== undefined && item.srcTableColName !== null) ? item.srcTableColName : item.srcTableId + '-right',
-        target: (item.tgtTableColName !== undefined && item.tgtTableColName !== null) ? item.tgtTableColName : item.tgtTableId + '-left',
+        source: (item.srcTableColName !== undefined && item.srcTableColName !== null) ? item.srcTableColName : item.srcTableId + `-${sourceType}`,
+        target: (item.tgtTableColName !== undefined && item.tgtTableColName !== null) ? item.tgtTableColName : item.tgtTableId + `-${targetType}`,
         _isNodeEdge: (item.srcTableColName === undefined || item.srcTableColName === null) && (item.tgtTableColName === undefined || item.tgtTableColName === null),
         Class: Edge
       }
@@ -42,12 +70,14 @@ export let transformInitData = (data) => {
 };
 
 // 由于展开收缩会影响到线段，所以需要对线段进行转换
-export let transformEdges = (nodes, edges) => {
+export let transformEdges = (nodes, edges, rankdir = 'LR') => {
+  let sourceType = rankdir === 'RL' ? 'left' : 'right';
+  let targetType = rankdir === 'RL' ? 'right' : 'left';
 
   edges.forEach((item) => {
     if (!item._isNodeEdge) {
-      item.source += '-right';
-      item.target += '-left';
+      item.source += `-${sourceType}`;
+      item.target += `-${targetType}`;
     }
   })
 
@@ -57,14 +87,14 @@ export let transformEdges = (nodes, edges) => {
         return node.id === item.sourceNode;
       });
       sourceEdges.forEach((item) => {
-        item.source = `${node.id}-right`;
+        item.source = `${node.id}-${sourceType}`;
         item.sourceCollaps = true;
       });
       let targetEdges = edges.filter((item) => {
         return node.id === item.targetNode;
       });
       targetEdges.forEach((item) => {
-        item.target = `${node.id}-left`;
+        item.target = `${node.id}-${targetType}`;
         item.targetCollaps = true;
       });
     }

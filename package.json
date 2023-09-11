@@ -1,6 +1,6 @@
 {
   "name": "react-lineage-dag",
-  "version": "2.0.35",
+  "version": "2.1.0-beta.23",
   "description": "表格/字段血缘React组件",
   "main": "dist/index.js",
   "pack": "pack/index.js",
@@ -21,18 +21,16 @@
   ],
   "author": "无惟",
   "license": "MIT",
-  "dependencies": {
-    "butterfly-dag": "^4.2.0"
-  },
   "peerDependencies": {
     "react": ">15.6.1",
     "react-dom": ">15.6.1",
     "lodash": "^4.17.20",
     "jquery": ">3.5.1",
-    "butterfly-dag": ">=4.0.0"
+    "butterfly-dag": "5.1.0-beta.22"
   },
   "devDependencies": {
     "@babel/core": "~7.12.0",
+    "butterfly-dag": "5.1.0-beta.22",
     "@babel/plugin-proposal-class-properties": "~7.12.1",
     "@babel/plugin-proposal-object-rest-spread": "~7.12.0",
     "@babel/plugin-transform-modules-commonjs": "^7.12.1",

@@ -21,15 +21,21 @@ export default class TableNode extends Node {
     this._renderPromise = Promise.resolve();
 
     this._isRendering = false;
+
+    this._rankdir = opts._rankdir;
     
   }
   mounted() {
     // 生成field的endpoint
     this._createNodeEndpoint(true);
 
+    // $(this.dom).attr('id', this.id);
+
     this.width = this.options.width = $(this.dom).width();
     this.height = this.options.height = $(this.dom).height();
-
+    if (_.get(this, 'options._titleRender')) {
+      this.height+= this.TITLE_HEIGHT;
+    }
   }
   draw(obj) {
     let _dom = obj.dom;
@@ -135,6 +141,17 @@ export default class TableNode extends Node {
       });
     });
 
+    $(this.dom).find('.title-con').on('mouseenter', (e) => {
+      this.emit('custom.node.mouseenter', {
+        node: this
+      });
+    });
+    $(this.dom).find('.title-con').on('mouseleave', (e) => {
+      this.emit('custom.node.mouseleave', {
+        node: this
+      });
+    });
+
     this.setDraggable(this.draggable);
   }
   _createTableName(container = $(this.dom), isUpdate) {
@@ -162,16 +179,12 @@ export default class TableNode extends Node {
                 node: this
               })
             } else {
-              let points = [];
               this.endpoints.forEach((item) => {
-                if (item.options._isNodeSelf) {
-                  item.updatePos();
-                  points.push(item);
-                }
+                item.updatePos();
               });
               this.emit('custom.edge.redraw', {
                 node: this,
-                points
+                points: this.endpoints
               })
             }
             resolve();
@@ -210,14 +223,17 @@ export default class TableNode extends Node {
       let rightPoint = $('<div class="point right-point"></div>');
       titleCom.append(leftPoint).append(rightPoint);
 
+      let leftType = this._rankdir === 'RL' ? 'source' : 'target';
+      let rightType = this._rankdir === 'RL' ? 'target' : 'source';
+
       this.titlesList = this.titlesList.concat([{
         id: `${this.id}-left`,
         dom: leftPoint[0],
-        type: 'target'
+        type: leftType
       }, {
         id: `${this.id}-right`,
         dom: rightPoint[0],
-        type: 'source'
+        type: rightType
       }]);
 
       $(container).append(titleCom);
@@ -226,6 +242,11 @@ export default class TableNode extends Node {
   _createFields(container = $(this.dom)) {
     let fields = _.get(this, 'options.fields');
     let columns = _.get(this, 'options._columns');
+    
+    if (!columns || columns.length === 0) {
+      return;
+    }
+
     let isCollapse = _.get(this, 'options.isCollapse');
     let _primaryKey = columns[0].key;
     let result = [];
@@ -302,12 +323,16 @@ export default class TableNode extends Node {
     return result;
   }
   _createNodeEndpoint(isInit) {
+    let leftType = this._rankdir === 'RL' ? 'source' : 'target';
+    let rightType = this._rankdir === 'RL' ? 'target' : 'source';
+    let targetOrientation = this._rankdir === 'RL' ? [1,0] : [-1,0];
+    let sourceOrientation = this._rankdir === 'RL' ? [-1,0] : [1,0];
     // 给节点add endpoint
     if (isInit) {
       this.titlesList.forEach((item) => {
         this.addEndpoint({
           id: item.id,
-          orientation: item.type === 'target' ? [-1,0] : [1,0],
+          orientation: item.type === 'target' ? targetOrientation : sourceOrientation,
           dom: item.dom,
           originId: this.id,
           type: item.type,
@@ -322,14 +347,14 @@ export default class TableNode extends Node {
         orientation: [-1,0],
         dom: $(item.dom).find('.left-point')[0],
         originId: this.id,
-        type: 'target'
-      });
+        type: leftType
+      })
       this.addEndpoint({
         id: `${item.id}-right`,
         orientation: [1,0],
         dom: $(item.dom).find('.right-point')[0],
         originId: this.id,
-        type: 'source'
+        type: rightType
       });
       if (this.options.isCollapse) {
         $(item.dom).css({
